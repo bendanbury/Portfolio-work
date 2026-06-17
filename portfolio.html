@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben Danbury — Scriptwriter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #F9F8F5;
+            --ink: #141414;
+            --muted: #6B6A66;
+            --accent: #1B3557;
+            --rule: #E0DED8;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 88px 0 64px;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .hero-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 52px;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .hero-role {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 48px;
+        }
+
+        .hero-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 80px;
+            font-style: italic;
+            font-weight: 400;
+            line-height: 1;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .hero-number-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+
+        .hero-bio {
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--ink);
+            line-height: 1.75;
+            max-width: 560px;
+        }
+
+        /* ── Projects ── */
+        .project {
+            padding: 68px 0;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .project-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .project-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            font-weight: 600;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            margin-bottom: 32px;
+        }
+
+        /* ── Video embed ── */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 36px;
+            background: #E8E6E0;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--muted);
+        }
+
+        .video-placeholder-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .video-placeholder-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        /* ── Case study ── */
+        .case-study {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--ink);
+        }
+
+        .case-study p + p {
+            margin-top: 18px;
+        }
+
+        /* ── Stat block ── */
+        .stat-block {
+            border-left: 2px solid var(--accent);
+            padding-left: 24px;
+            margin-top: 44px;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-style: italic;
+            font-weight: 400;
+            line-height: 1;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .stat-detail {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            padding: 52px 0 64px;
+        }
+
+        .footer-contact {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .footer-contact a {
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--rule);
+            transition: border-color 0.15s ease;
+        }
+
+        .footer-contact a:hover {
+            border-color: var(--ink);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .hero { padding: 60px 0 48px; }
+            .hero-name { font-size: 40px; }
+            .hero-number { font-size: 64px; }
+            .project { padding: 52px 0; }
+            .project-title { font-size: 30px; }
+            .stat-number { font-size: 44px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header class="hero">
+        <h1 class="hero-name">Ben Danbury</h1>
+        <p class="hero-role">Freelance Scriptwriter</p>
+
+        <div class="hero-number">6.5M+</div>
+        <p class="hero-number-label">Cumulative views across three years of client work</p>
+
+        <p class="hero-bio">I write scripts for video. Over three years of freelance work, I have written for audiences of hundreds of thousands across formats that don't resemble each other: deadline-driven journalism produced overnight, long-form documentary narrative across 40,000 words, channel launches, and straight comedy. The view counts below are public.</p>
+    </header>
+
+
+    <!-- ── Project 1: 50 Games of Destiny 1 ── -->
+    <article class="project">
+        <p class="project-eyebrow">FalloutPlays · 2022</p>
+        <h2 class="project-title">50 Games of Destiny 1</h2>
+
+        <div class="video-wrapper">
+            <iframe
+                src="https://www.youtube.com/embed/JL7WE3hRDn8"
+                title="50 Games of Destiny 1 — FalloutPlays"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="case-study">
+            <p>The brief was to add a new entry to an established "50 games of" series on one of the larger Destiny 2 channels on YouTube, with a dedicated and knowledgeable audience. The challenge wasn't just to be funny — it was to write convincingly inside an existing voice and format, for the first time, with no prior relationship with the creator or the audience.</p>
+            <p>At the time of writing the script, Destiny 1 was an eight-year-old game revisited by someone who hadn't played it since it was current. It had aged in ways that were frustrating and charming in equal parts, and the audience watching would have known that better than anyone else. The script had to be honest about its rougher edges without taking away from the nostalgia that gave people a reason to smile at the thumbnail in the first place. The answer was to make the creator the target of jokes as much as the game was.</p>
+            <p>The role came via an audition task set by the creator, who gave detailed written feedback and rated the writing highly enough to bring me on. It was the first piece of work in a relationship that would go on to generate millions of views.</p>
+        </div>
+
+        <div class="stat-block">
+            <div class="stat-number">493K</div>
+            <div class="stat-detail">Views · 16,000 likes</div>
+        </div>
+    </article>
+
+
+    <!-- ── Project 2: 100 Hours of League of Legends ── -->
+    <article class="project">
+        <p class="project-eyebrow">Fallout Plays Everything · 2024</p>
+        <h2 class="project-title">100 Hours of League of Legends</h2>
+
+        <div class="video-wrapper">
+            <iframe
+                src="https://www.youtube.com/embed/4E5YMgoPH_U"
+                title="100 Hours of League of Legends — Fallout Plays Everything"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+        </div>
+
+        <div class="case-study">
+            <p>The brief was to script a launch video for a brand new variety gaming channel — built around an established Destiny 2 creator with a large existing audience, but starting from zero subscribers on a separate platform. The video needed to be good enough to justify the channel's existence from the first upload; it involved three months of footage to trawl through.</p>
+            <p>The format was a 100-hour challenge modelled loosely on a video by Team Summertime, an already established channel with a built-in audience to draw on. The structural answer was a hero's journey: a complete beginner goes from knowing nothing to earning an S-rank in one of the game's hardest roles. That arc gave the script a spine and the audience a reason to stay past the halfway point. The tonal challenge was harder: funny without alienating League players, familiar enough for existing fans of the creator, and accessible to people who had never heard of either.</p>
+        </div>
+
+        <div class="stat-block">
+            <div class="stat-number">560K</div>
+            <div class="stat-detail">Views on launch · 6,000 subscribers gained on release</div>
+        </div>
+    </article>
+
+
+    <!-- ── Project 3: Root of Nightmares ── -->
+    <article class="project">
+        <p class="project-eyebrow">FalloutPlays · 2023</p>
+        <h2 class="project-title">Root of Nightmares Raid Guide</h2>
+
+        <div class="video-wrapper">
+            <iframe
+                src="https://www.youtube.com/embed/f1-ytmAPFgE"
+                title="Root of Nightmares Raid Guide — FalloutPlays"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="case-study">
+            <p>Every year, the release of a new Destiny 2 raid was the biggest event in the game's calendar. For the first 24 hours, players competed in Contest Mode — a power-capped ruleset that made the raid significantly harder. While teams went through a gruelling test of endurance, creativity, and courage, the community watched live in their hundreds of thousands. While not everyone was bold enough to attempt Contest Mode, plenty were keen to give the new content a shot when the raid opened up on normal difficulty the next day. Those players, many of whom were in the raid race audience, were in desperate need of a guide.</p>
+            <p>The brief was simple and unforgiving: be first. That meant watching the creator and his team work through entirely undocumented mechanics in real time, taking notes on systems nobody had seen before, and turning those notes into a coherent guide the moment the raid was cleared. The notes had to be written before the mechanics were even fully understood. The guide had to be ready the instant they were.</p>
+            <p>It was published before Datto's — the most prominent raid guide creator in the community, and the creator's closest competitor in that space. It remains one of the highest performing raid guides on the channel.</p>
+        </div>
+
+        <div class="stat-block">
+            <div class="stat-number">678K</div>
+            <div class="stat-detail">Views · 16,000 likes</div>
+        </div>
+    </article>
+
+
+    <!-- ── Project 4: Complete History of Destiny Raids ── -->
+    <article class="project">
+        <p class="project-eyebrow">evanf1997 · 2024 — Co-written</p>
+        <h2 class="project-title">The Complete History of Destiny Raids</h2>
+
+        <!-- Replace the src below with the YouTube embed URL when available -->
+        <div class="video-wrapper">
+            <div class="video-placeholder">
+                <span class="video-placeholder-label">Video</span>
+                <span class="video-placeholder-sub">Replace this block with the YouTube embed</span>
+            </div>
+        </div>
+
+        <div class="case-study">
+            <p>At just over 40,000 words and seven hours of finished video, this is the largest single piece of work in this portfolio. For context, 40,000 words sits comfortably within the range of a short novel. The Lord of the Rings trilogy in its standard theatrical cuts runs to about eleven hours. 185,000 people watched the majority of a seven-hour video.</p>
+            <p>The brief, co-written with evanf1997, was to cover the complete history of Destiny raid racing across all 18 raids and 76 encounters — ten years of community history, developer insight, and world-first race stories — in a single documentary-style video. The research involved developer interviews, archival footage, community testimony, and a decade of accumulated lore that needed to be synthesised and presented in a way that honoured the people who had been there while remaining accessible to people who hadn't.</p>
+            <p>The tonal register was entirely different from anything else in this portfolio. There were no quick jokes to land, no hook in the first ten seconds to justify staying. The job was to write like a historian: authoritative, specific, and serious enough to earn the audience's patience across an enormous runtime, while retaining enough warmth and texture to make ten-year-old raid races feel worth caring about. That meant understanding not just what happened in each race, but why it mattered — why a team disconnecting during a final stand, or a substitute player who barely spoke English clutching a crucial mechanic, deserved to be written about with the same weight as a sporting upset.</p>
+            <p>The structural challenge was considerable. Each raid needed to function as both a design history and a race story, covering encounter mechanics, the competitive field, and the human moments that defined each clear. Maintaining that structure consistently across eighteen raids, without the sections bleeding into one another or losing their individual character, required genuine editorial discipline over a very long document.</p>
+            <p>185,000 views for a seven-hour video is not an accident. It reflects an audience that trusted the work enough to stay.</p>
+        </div>
+
+        <div class="stat-block">
+            <div class="stat-number">185K</div>
+            <div class="stat-detail">Views · 7-hour runtime · 40,000-word script</div>
+        </div>
+    </article>
+
+
+    <footer class="footer">
+        <p class="footer-contact">
+            <a href="mailto:bendanbury01@icloud.com">bendanbury01@icloud.com</a><br>
+            <a href="https://linkedin.com/in/ben-danbury-b86324168">LinkedIn</a><br>
+            London
+        </p>
+    </footer>
+
+</div>
+
+</body>
+</html>
