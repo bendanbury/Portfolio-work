@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben Danbury — Writer &amp; Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #F9F8F5;
+            --ink: #141414;
+            --muted: #6B6A66;
+            --accent: #1B3557;
+            --rule: #E0DED8;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 88px 0 64px;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .hero-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 52px;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .hero-role {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 48px;
+        }
+
+        .hero-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 80px;
+            font-style: italic;
+            font-weight: 400;
+            line-height: 1;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .hero-number-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+
+        .hero-bio {
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--ink);
+            line-height: 1.75;
+            max-width: 560px;
+        }
+
+        .hero-bio + .hero-bio {
+            margin-top: 18px;
+        }
+
+        /* ── Section divider label ── */
+        .section-label {
+            padding: 56px 0 0;
+        }
+
+        .section-label-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        /* ── Projects ── */
+        .project {
+            padding: 68px 0;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .project-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .project-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            font-weight: 600;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            margin-bottom: 32px;
+        }
+
+        /* ── Video embed ── */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 36px;
+            background: #E8E6E0;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--muted);
+        }
+
+        .video-placeholder-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .video-placeholder-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        /* ── Case study ── */
+        .case-study {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--ink);
+        }
+
+        .case-study p + p {
+            margin-top: 18px;
+        }
+
+        /* ── Stat block ── */
+        .stat-block {
+            border-left: 2px solid var(--accent);
+            padding-left: 24px;
+            margin-top: 44px;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-style: italic;
+            font-weight: 400;
+            line-height: 1;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .stat-detail {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* ── Design: poster hero ── */
+        .poster {
+            margin-bottom: 40px;
+        }
+
+        .poster a {
+            display: block;
+            background: #FFFFFF;
+            border: 1px solid var(--rule);
+            padding: 18px;
+            transition: border-color 0.15s ease;
+        }
+
+        .poster a:hover {
+            border-color: var(--accent);
+        }
+
+        .poster img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .poster-caption {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 12px;
+            line-height: 1.7;
+        }
+
+        .poster-caption a {
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--rule);
+            transition: border-color 0.15s ease;
+        }
+
+        .poster-caption a:hover {
+            border-color: var(--ink);
+        }
+
+        /* ── Design: process carousel ── */
+        .process {
+            margin-top: 48px;
+        }
+
+        .process-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .process-intro {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--ink);
+            margin-bottom: 24px;
+        }
+
+        .carousel {
+            position: relative;
+            background: #FFFFFF;
+            border: 1px solid var(--rule);
+        }
+
+        .carousel-stage {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #FFFFFF;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            pointer-events: none;
+        }
+
+        .carousel-slide.is-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .carousel-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border-top: 1px solid var(--rule);
+            padding: 12px 14px;
+        }
+
+        .carousel-btn {
+            appearance: none;
+            border: 1px solid var(--rule);
+            background: var(--bg);
+            color: var(--ink);
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: border-color 0.15s ease, color 0.15s ease;
+            line-height: 1;
+        }
+
+        .carousel-btn:hover:not(:disabled) {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .carousel-btn:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+
+        .carousel-counter {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .carousel-hint {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 12px;
+        }
+
+        /* Lightbox for enlarging a slide */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 20, 20, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            z-index: 50;
+        }
+
+        .lightbox.is-open {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 100%;
+            max-height: 88vh;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            appearance: none;
+            border: 1px solid rgba(249, 248, 245, 0.4);
+            background: transparent;
+            color: #F9F8F5;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 8px 14px;
+            cursor: pointer;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            appearance: none;
+            border: none;
+            background: transparent;
+            color: #F9F8F5;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 44px;
+            line-height: 1;
+            padding: 0 18px;
+            cursor: pointer;
+            opacity: 0.75;
+        }
+
+        .lightbox-nav:hover { opacity: 1; }
+        .lightbox-prev { left: 4px; }
+        .lightbox-next { right: 4px; }
+
+        /* ── Footer ── */
+        .footer {
+            padding: 52px 0 64px;
+        }
+
+        .footer-contact {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .footer-contact a {
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--rule);
+            transition: border-color 0.15s ease;
+        }
+
+        .footer-contact a:hover {
+            border-color: var(--ink);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .hero { padding: 60px 0 48px; }
+            .hero-name { font-size: 40px; }
+            .hero-number { font-size: 64px; }
+            .project { padding: 52px 0; }
+            .project-title { font-size: 30px; }
+            .stat-number { font-size: 44px; }
+            .carousel-controls { flex-wrap: wrap; }
+            .lightbox-nav { font-size: 34px; padding: 0 8px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header class="hero">
+        <h1 class="hero-name">Ben Danbury</h1>
+        <p class="hero-role">Writer &amp; Designer</p>
+
+        <div class="hero-number">6.5M+</div>
+        <p class="hero-number-label">Cumulative views across three years of client work</p>
+
+        <p class="hero-bio">I write scripts for video. Over three years of freelance work, I have written for audiences of hundreds of thousands across formats that don't resemble each other: deadline-driven journalism produced overnight, long-form documentary narrative across 40,000 words, channel launches, and straight comedy. The view counts below are public.</p>
+
+        <p class="hero-bio">I also design. Working with a charity in the outdoor industry, I have taken a brief from a blank page to a print-ready campaign asset, building a coherent visual and colour system along the way. That work sits in its own section further down the page.</p>
+    </header>
+
+
+    <!-- ══════════════════════ WRITING ══════════════════════ -->
+    <div class="section-label">
+        <p class="section-label-eyebrow">Writing</p>
+    </div>
+
+
+    <!-- ── Project 1: 50 Games of Destiny 1 ── -->
+    <article class="project">
+        <p class="project-eyebrow">FalloutPlays · 2022</p>
+        <h2 class="project-title">50 Games of Destiny 1</h2>
+
+   <div class="video-wrapper">
+    <iframe
+        src="https://www.youtube.com/embed/JL7WE3hRDn8"
+        title="50 Games of Destiny 1 — FalloutPlays"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+    </iframe>
+</div>
+
+        <div class="case-study">
+            <p>The brief was to add a new entry to an established "50 games of" series on one of the larger Destiny 2 channels on YouTube, with a dedicated and knowledgeable audience. The challenge wasn't just to be funny - it was to write convincingly inside an existing voice and format, for the first time, with no prior relationship with the creator or the audience.</p>
+            <p>At the time of writing the script, Destiny 1 was an eight-year-old game revisited by someone who hadn't played it since it was current. It had aged in ways that were frustrating and charming in equal parts, and the audience watching would have known that better than anyone else. The script had to be honest about its rougher edges without taking away from the nostalgia that gave people a reason to smile at the thumbnail in the first place. The answer was to make the creator the target of jokes as much as the game was. The end product, a story of someone rediscovering something that once moved them and annoyed them, was evidently appealing.</p>
+            <p>The role came via an audition task set by the creator, who gave detailed written feedback and rated the writing highly enough to bring me on. It was the first piece of work in a relationship that would go on to generate millions of views.</p>
+        </div>
+
+        <div class="stat-block">
+            <div class="stat-number">493K</div>
+            <div class="stat-detail">Views · 16,000 likes</div>
+        </div>
+    </article>
+
+
+    <!-- ── Project 2: 100 Hours of League of Legends ── -->
+    <article class="project">
+        <p class="project-eyebrow">Fallout Plays Everything · 2024</p>
+        <h2 class="project-title">100 Hours of League of Legends</h2>
+
+<div class="video-wrapper">
+    <iframe
+        src="https://www.youtube.com/embed/4E5YMgoPH_U"
+        title="100 Hours of League of Legends — Fallout Plays Everything"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+    </iframe>
+</div>
+
+        <div class="case-study">
+            <p>The brief was to script a launch video for a brand new variety gaming channel - built around an established Destiny 2 creator with a large existing audience, but starting from zero subscribers on a separate platform. The video needed to be good enough to justify the channel's existence from the first upload; it involved three months of footage to trawl through.</p>
+            <p>The format was a 100-hour challenge modelled loosely on a video by Team Summertime, an already established channel with a built-in audience to draw on. The structural answer was a hero's journey: a complete beginner goes from knowing nothing to earning an S-rank in one of the game's hardest roles. That arc gave the script a spine and the audience a reason to stay past the halfway point. The tonal challenge was harder: funny without alienating League players, familiar enough for existing fans of the creator, and accessible to people who had never heard of either.</p>
+        </div>
+
+        <div class="stat-block">
+            <div class="stat-number">560K</div>
+            <div class="stat-detail">Views on launch · 6,000 subscribers gained on release</div>
+        </div>
+    </article>
+
+
+    <!-- ── Project 3: Root of Nightmares ── -->
+    <article class="project">
+        <p class="project-eyebrow">FalloutPlays · 2023</p>
+        <h2 class="project-title">Root of Nightmares Raid Guide</h2>
+
+   <div class="video-wrapper">
+    <iframe
+        src="https://www.youtube.com/embed/f1-ytmAPFgE"
+        title="Root of Nightmares Raid Guide — FalloutPlays"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+    </iframe>
+</div>
+
+        <div class="case-study">
+            <p>Every year, the release of a new Destiny 2 raid was the biggest event in the game's calendar. For the first 24 hours, players competed in Contest Mode. This was a power-capped ruleset that made the raid significantly harder; while teams went through a gruelling test of endurance, creativity, and courage, the community watched live in their hundreds of thousands. While not everyone was bold enough to attempt Contest Mode, plenty were keen to give the new content a shot when the raid opened up on normal difficulty the next day. Those players, many of whom were in the raid race audience, were in desperate need of a guide. </p>
+            <p>The brief was simple and unforgiving: be first. That meant watching Fallout and his team work through entirely undocumented mechanics in real time, taking notes on systems nobody had seen before, and turning those notes into a coherent guide the moment the raid was cleared. The notes had to be written before the mechanics were even fully understood. The guide had to be ready the instant they were.</p>
+            <p>It was published before Datto's was - he was the most prominent raid guide creator in the community, and Fallout’s closest competitor in that space.</p>
+        </div>
+
+        <div class="stat-block">
+            <div class="stat-number">678K</div>
+            <div class="stat-detail">Views · 16,000 likes</div>
+        </div>
+    </article>
+
+
+    <!-- ── Project 4: Complete History of Destiny Raids ── -->
+    <article class="project">
+        <p class="project-eyebrow">evanf1997 · 2024 — Co-written</p>
+        <h2 class="project-title">The Complete History of Destiny Raids</h2>
+
+        <!-- Replace the src below with the YouTube embed URL when available -->
+        <div class="video-wrapper">
+    <iframe
+        src="https://www.youtube.com/embed/HlWOp9vhKY4?si=Jw5TITBkUwrV5o_r"
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+    </iframe>
+</div>
+
+
+        <div class="case-study">
+            <p>At just over 40,000 words and seven hours of finished video, this is the largest single piece of work in this portfolio. For context, 40,000 words sits comfortably within the range of a short novel. The Lord of the Rings trilogy in its standard theatrical cuts runs to about eleven hours. 185,000 people watched the majority of a seven-hour video.</p>
+            <p>The brief, co-written with evanf1997, was to cover the complete history of Destiny raid racing across all 18 raids and 76 encounters - ten years of community history, developer insight, and world-first race stories - in a single documentary-style video. The research involved developer interviews, archival footage, community testimony, and a decade of accumulated lore that needed to be synthesised and presented in a way that honoured the people who had been there while remaining accessible to people who hadn't.</p>
+            <p>The tonal register was entirely different from anything else in this portfolio. There were no quick jokes to land, no hook in the first ten seconds to justify staying. The job was to write like a historian: authoritative, specific, and serious enough to earn the audience's patience across an enormous runtime, while retaining enough warmth and texture to make ten-year-old raid races feel worth caring about. That meant understanding not just what happened in each race, but why it mattered - why a team disconnecting during a final stand, or a substitute player who barely spoke English clutching a crucial mechanic, deserved to be written about with the same weight as a sporting upset.</p>
+            <p>The structural challenge was considerable. Each raid needed to function as both a design history and a race story, covering encounter mechanics, the competitive field, and the human moments that defined each clear. Maintaining that structure consistently across eighteen raids, without the sections bleeding into one another or losing their individual character, required genuine editorial discipline over a very long document.</p>
+        </div>
+
+        <div class="stat-block">
+            <div class="stat-number">185K</div>
+            <div class="stat-detail">Views · 7-hour runtime · 40,000-word script</div>
+        </div>
+    </article>
+
+
+    <!-- ══════════════════════ DESIGN ══════════════════════ -->
+    <div class="section-label">
+        <p class="section-label-eyebrow">Design</p>
+    </div>
+
+    <article class="project">
+        <p class="project-eyebrow">Scarpa × Climbers Against Cancer · 2026</p>
+        <h2 class="project-title">Scarpa × CAC Drago campaign</h2>
+
+        <div class="poster">
+            <a href="assets/design/scarpa-cac-drago-poster.pdf" target="_blank" rel="noopener" title="Open the print-ready PDF">
+                <img src="assets/design/scarpa-cac-drago-poster.png" alt="Scarpa × CAC Drago poster: the limited-edition magenta and teal Drago climbing shoe above the tagline Crush climbs. Crush cancer.">
+            </a>
+            <p class="poster-caption">Final print-ready poster, A3 · <a href="assets/design/scarpa-cac-drago-poster.pdf" target="_blank" rel="noopener">Open full-quality PDF</a></p>
+        </div>
+
+        <div class="case-study">
+            <p>This project was a little different from the others that I've completed: a deliberate step into producing marketing assets, rather than the writing that makes up the rest of this portfolio. I contacted a charity that my employer at the time was partnered with, and asked them if they needed any help with their marketing. It made sense to work with Climbers Against Cancer; I had become an obsessive climber in October 2025, and when we started the project, I was climbing three or four times a week. This connection meant that I understood their audience very well without having to do as much research; I did, however, do a lot of work in understanding the charity and their identity. This included getting in touch with an acclaimed outdoor film producer and director to better understand some of his work with CAC from ten years ago (Wojtek Kozakiewicz was remarkably kind and helpful; I remain very grateful to him).</p>
+
+            <p>The basic brief wasn't particularly clear at first, largely due to the sensitive nature of the topic. Scarpa, one of the outdoor world's biggest brands, had generously given CAC a batch of Dragos, the ultra-sensitive, ultra-precise, torturously low-volume climbing shoe that had taken over the crags and gyms of the world for the past ten years or so. This limited edition version was magenta pink with teal accents - the only version of the Drago to exist in this colour. The first batch was limited to 100 pairs and sold out in 27 hours; Scarpa and CAC were set to repeat the same event in 2026, and wanted some promotional material to be made for the release of the shoe. The most important asset they needed was a poster advertising the shoes and directing people towards signing up for CAC's email newsletter. Part of the initial challenge of this project was narrowing down exactly what was needed for the poster's design. From asking the right questions, I was able to find out where the poster was going to be displayed, the nature of the collaboration between Scarpa and CAC, and most importantly, exactly what the client needed people to do as a result of seeing the poster; namely, signing up to the newsletter, which would give them early access to purchase the coveted shoes. [NB: the campaign has since expanded beyond the poster; I am about to start work on the rest of it]</p>
+
+            <p>Once the brief had been clearly laid-out and established, the next step was to create a rudimentary first draft. There were a few decisions I made that I was quite pleased with when I received feedback from the client. The first was to make a Canva presentation in which I explained my creative process as I went, documenting my decisions and my thought processes. This was particularly helpful for one early design which used 'cute' versions of heraldic imagery to represent Asolo, where Scarpa is based, and Heinz Mariacher, who designed the Dragos; one trustee of the charity said that when she 'read the reasoning behind the chosen 'creatures', [she] was very impressed!' The second was to present several versions of the poster to the client side-by-side. This is, funnily enough, a sales tactic taken directly from my time working in technical outdoor retail. Often, you know exactly what works best for a customer based on their measurements/fit profile. However, it is almost always more effective to give people the impression that they have a choice - although you steer them in one direction because of your product knowledge, they feel as if they have control over the process. While this is somewhat different in graphic design, due to the subjective nature of what looks 'best', showing the client multiple options at the same time worked very well for determining what they actually wanted.</p>
+
+            <p>Naturally, there were various flaws with my initial design. What followed was a thoroughly enjoyable process in which I both improved various shortcomings, and iterated on existing ideas in search of something better. Some of my experiments proved to be short-lived; some were key to creating the final version. I deliberately limited the number of people who I bounced ideas off, due to the secret nature of the project; family, close friends, and the staff members of my home gym (who are close friends anyway). Some of their suggestions proved to be helpful in working out what worked and what didn't, although everyone tended to think differently about the piece. Ultimately, the only people who I really paid attention to were the trustees of the charity. The ideas that they liked the most came directly from my creative decisions; the decision to strike through certain letters and not others, the colour coordination of the full stops after the tagline and the CTA, the careful manipulation of fonts to make them closer to Scarpa's custom typeface - these were all tasks that I undertook independently because I thought it would make the poster look better.</p>
+
+            <p>To expand on the question of fonts briefly, I looked into Scarpa's branding and found their headline face is a bespoke typeface by Landor &amp; Fitch, in the Microgramma/Eurostile lineage. The closest match available in Canva was Horizon for the tagline and the CTA, alongside Michroma for the information section (Michroma needed to have the letter spacing drastically reduced in order to look like the Scarpa Bold/Light custom typefaces). Another specific design choice that I was particularly proud of involved using the 'Glitch' effect in Canva's text editor. The headline of the poster uses a magenta and teal ghost-offset behind the black text; these two colours map to the shoe's suede sections and pull tabs. They're present in the strikethroughs and the punctuation; when viewed from afar, they give the text the slight appearance of floating in the air. Using the vivid colours of the Drago in subtle ways makes the shoe 'pop' and focuses attention on the product itself. Building an overall colour system also meant I could change individual elements without breaking the rules holding the design together.</p>
+
+            <p>It's worth commenting on the quality control element of the work too. Print is unforgiving in a way that video isn't; once a file goes to the printer, a misaligned logo or a colour that shifts under CMYK conversion is permanent. The final stage of creating the poster was a detailed audit of the print-ready file. I used Claude for parts of this, though I deliberately didn't hand the project over and wait for an answer. LLMs, when used correctly, are extremely powerful tools that can pick up inconsistencies that would take humans days to spot. I therefore used it as a second set of eyes on specific, well-defined problems: sampling pixel colours across screenshots to match a QR code to the exact teal in the tagline, checking the strikethrough pattern was consistent across versions, and auditing the final file for print-safety issues like bottom-margin bleed and logo alignment. It caught a genuine error I'd missed - the logo lockup was sitting a few millimetres left of centre, a bug that came from aligning elements before grouping them. Additionally, I was able to spot a glaring problem and solve it long before the poster went to print. The main photo of the Drago, the most important part of the poster, had a resolution ceiling that would have made it look sub-standard if it went to print in A3. I flagged it early, emailed my contact at CAC, and secured a much higher resolution image, specifying exactly what resolution I needed; they went above and beyond, and located a 4500px CMYK production file. Anticipating the problem rather than reacting to it is the kind of project-management instinct the work depends on.</p>
+
+            <p>A few final issues with the design poster almost caused some small hiccups, but were thankfully resolved before they became a problem. My contact at CAC was in the process of showing the final design to the various trustees of the charity, when one of them noticed a design issue. One full stop ended up clashing with the colour system of the final design while its counterpart didn't; this broke the symmetry that the rest of the poster relied on. This kind of issue is one that requires human judgement to solve; matters of visual preference are far from objectively measurable errors. This would have been the finish line, but after climbing, I noticed another error that nobody had managed to pick up on; the 'I' in the 'SIGN UP NOW' section of the CTA was missing the strikethrough that had given character to the rest of the design. The full stop being the wrong colour would have detracted from the poster's professionalism; the missing strikethrough would have had the same effect. I identified the issue, asked my contact whether she wanted me to send a fixed version through; twenty minutes later, I sent a print-ready final version with the missing strikethrough fixed without waiting for a response. The nature of voluntary work means that you tend to be rewarded by being proactive; whether that's being the one to get in touch with the charity in the first place, or the last one to spot a crucial error just before the asset goes to print.</p>
+        </div>
+
+        <!-- ── Process presentation carousel ── -->
+        <div class="process">
+            <p class="process-eyebrow">The process, slide by slide</p>
+            <p class="process-intro">I documented the creative process as I went, in a presentation shared with the client. Move through it below to see how the design developed from the first rough drafts to the final print-ready poster.</p>
+
+            <div class="carousel" id="processCarousel" aria-roledescription="carousel" aria-label="Scarpa × CAC creative process presentation">
+                <div class="carousel-stage" id="carouselStage"></div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn" id="carouselPrev" type="button" aria-label="Previous slide">← Prev</button>
+                    <span class="carousel-counter" id="carouselCounter">1 / 18</span>
+                    <button class="carousel-btn" id="carouselNext" type="button" aria-label="Next slide">Next →</button>
+                </div>
+            </div>
+            <p class="carousel-hint">Use the arrows or your keyboard's ← → keys. Click a slide to enlarge.</p>
+        </div>
+
+    </article>
+
+
+    <footer class="footer">
+        <p class="footer-contact">
+            <a href="mailto:bendanbury01@icloud.com">bendanbury01@icloud.com</a><br>
+            <a href="https://linkedin.com/in/ben-danbury-b86324168">LinkedIn</a><br>
+            London
+        </p>
+    </footer>
+
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged slide">
+    <button class="lightbox-close" id="lightboxClose" type="button">Close ✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="Previous slide">‹</button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="Next slide">›</button>
+</div>
+
+<script>
+(function () {
+    var TOTAL = 18;
+    var base = 'assets/design/process/slide-';
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function src(n) { return base + pad(n) + '.jpg'; }
+
+    var stage = document.getElementById('carouselStage');
+    var counter = document.getElementById('carouselCounter');
+    var prevBtn = document.getElementById('carouselPrev');
+    var nextBtn = document.getElementById('carouselNext');
+    if (!stage) return;
+
+    var current = 1;
+    var imgs = [];
+
+    // Build slide images (first eager, rest lazy)
+    for (var i = 1; i <= TOTAL; i++) {
+        var img = document.createElement('img');
+        img.className = 'carousel-slide';
+        img.src = src(i);
+        img.alt = 'Creative process, slide ' + i + ' of ' + TOTAL;
+        img.loading = (i === 1) ? 'eager' : 'lazy';
+        img.setAttribute('data-index', i);
+        if (i === 1) img.classList.add('is-active');
+        img.addEventListener('click', function () {
+            openLightbox(parseInt(this.getAttribute('data-index'), 10));
+        });
+        stage.appendChild(img);
+        imgs.push(img);
+    }
+
+    function show(n) {
+        if (n < 1) n = 1;
+        if (n > TOTAL) n = TOTAL;
+        imgs[current - 1].classList.remove('is-active');
+        current = n;
+        imgs[current - 1].classList.add('is-active');
+        counter.textContent = current + ' / ' + TOTAL;
+        prevBtn.disabled = (current === 1);
+        nextBtn.disabled = (current === TOTAL);
+    }
+
+    prevBtn.addEventListener('click', function () { show(current - 1); });
+    nextBtn.addEventListener('click', function () { show(current + 1); });
+
+    // Keyboard navigation when the carousel is in view / focused
+    document.addEventListener('keydown', function (e) {
+        if (lb.classList.contains('is-open')) return; // lightbox handles its own keys
+        if (e.key === 'ArrowLeft') { show(current - 1); }
+        else if (e.key === 'ArrowRight') { show(current + 1); }
+    });
+
+    // Touch / swipe
+    var startX = null;
+    stage.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend', function (e) {
+        if (startX === null) return;
+        var dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 40) { show(dx < 0 ? current + 1 : current - 1); }
+        startX = null;
+    }, { passive: true });
+
+    // ── Lightbox ──
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightboxImg');
+    var lbClose = document.getElementById('lightboxClose');
+    var lbPrev = document.getElementById('lightboxPrev');
+    var lbNext = document.getElementById('lightboxNext');
+    var lbIndex = 1;
+
+    function openLightbox(n) {
+        lbIndex = n;
+        lbImg.src = src(n);
+        lbImg.alt = 'Creative process, slide ' + n + ' of ' + TOTAL;
+        lb.classList.add('is-open');
+    }
+    function closeLightbox() { lb.classList.remove('is-open'); lbImg.src = ''; }
+    function lbShow(n) {
+        if (n < 1) n = TOTAL;
+        if (n > TOTAL) n = 1;
+        openLightbox(n);
+        show(n); // keep carousel in sync
+    }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', function () { lbShow(lbIndex - 1); });
+    lbNext.addEventListener('click', function () { lbShow(lbIndex + 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', function (e) {
+        if (!lb.classList.contains('is-open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowLeft') lbShow(lbIndex - 1);
+        else if (e.key === 'ArrowRight') lbShow(lbIndex + 1);
+    });
+
+    show(1);
+})();
+</script>
+
+</body>
+</html>
