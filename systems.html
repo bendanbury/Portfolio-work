@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems · Ben Danbury</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* ── Route topo: shown as a framed piece in its own fonts and colours.
+              Everything here only applies inside .topo-exhibit. ── */
+        .topo-exhibit {
+            --paper: #EDF0EA; --panel: #F8F9F5; --ink: #16212B; --head: #16212B; --muted: #635B75; --line: #D6D1E0;
+            --contour: rgba(58,30,122,.06); --route: #6030C6; --claude: #C4402A; --ai: #4E24A8; --ai-soft: rgba(78,36,168,.08);
+            --noai: #6E5C99; --noai-soft: rgba(110,92,153,.08); --block: #CC1F36;
+            --gap: 40px;
+            --display: "Archivo", "Arial Narrow", Arial, sans-serif;
+            --body: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+            --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+            /* wider than the text column on big screens, so the route can run left to right */
+            width: min(1120px, calc(100vw - 32px));
+            margin: 0 0 64px calc(50% - min(560px, 50vw - 16px));
+            padding: 44px clamp(16px, 4vw, 44px) 36px;
+            border: 1px solid #E0DED8;
+            display: grid;
+            gap: 36px;
+            background-color: var(--paper);
+            background-image:
+                repeating-radial-gradient(ellipse 60% 45% at 88% 8%, transparent 0 26px, var(--contour) 26px 27px),
+                repeating-radial-gradient(ellipse 55% 40% at 6% 96%, transparent 0 34px, var(--contour) 34px 35px);
+            color: var(--ink);
+            font-family: var(--body);
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .topo-exhibit .tx-head { display: grid; gap: 14px; max-width: 900px; }
+        .topo-exhibit .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+        .topo-exhibit .eyebrow b { color: var(--route); font-weight: 600; }
+        .topo-exhibit .tx-title { font-family: var(--display); font-stretch: 72%; font-weight: 850; font-size: clamp(38px, 6.2vw, 70px); line-height: .94; letter-spacing: -.01em; text-wrap: balance; color: var(--ink); }
+        .topo-exhibit .tx-title span { display: block; }
+        .topo-exhibit .tx-title .setup { font-size: clamp(26px, 3.8vw, 42px); font-weight: 700; font-stretch: 80%; line-height: 1.08; letter-spacing: 0; margin-bottom: .3em; color: var(--head); }
+        .topo-exhibit .tx-title .r { color: var(--route); }
+        .topo-exhibit .tx-title .c { color: var(--claude); }
+        .topo-exhibit .lede { font-size: 17px; max-width: 62ch; color: var(--ink); }
+        .topo-exhibit .lede em { font-style: normal; font-weight: 650; }
+
+        .topo-exhibit .topo { display: grid; grid-template-columns: 1fr 1.22fr 1fr; gap: var(--gap); align-items: start; }
+        .topo-exhibit .pitch { display: grid; gap: 14px; min-width: 0; }
+        .topo-exhibit .station { position: relative; display: flex; align-items: center; gap: 12px; height: 28px; }
+        .topo-exhibit .ring { width: 24px; height: 24px; border-radius: 50%; border: 2.5px solid var(--route); background: var(--paper); position: relative; z-index: 1; flex: none; }
+        .topo-exhibit .ring::after { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--route); }
+        .topo-exhibit .pitch:not(:last-child) .station::after { content: ""; position: absolute; left: 24px; right: calc(-1 * var(--gap)); top: 50%; border-top: 2.5px dashed var(--route); z-index: 0; }
+        .topo-exhibit .station .p { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--route); background: var(--paper); position: relative; z-index: 1; padding-right: 6px; }
+        .topo-exhibit .station h4 { font-family: var(--display); font-stretch: 80%; font-weight: 800; font-size: 22px; text-transform: uppercase; letter-spacing: .06em; color: var(--head); background: var(--paper); position: relative; z-index: 1; padding-right: 10px; }
+
+        .topo-exhibit .nodes { list-style: none; display: grid; gap: 10px; }
+        .topo-exhibit .node { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; display: grid; gap: 2px; }
+        .topo-exhibit .node b { font-weight: 700; font-size: 15px; color: var(--head); }
+        .topo-exhibit .node span { font-size: 13.5px; color: var(--muted); }
+        .topo-exhibit .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+        .topo-exhibit .chip { font-family: var(--mono); font-size: 11.5px; border: 1px solid var(--line); border-radius: 4px; padding: 2px 7px; color: var(--ink); background: var(--paper); }
+
+        .topo-exhibit .engine { border-radius: 6px; padding: 14px 16px 16px; display: grid; gap: 8px; border: 1.5px solid; }
+        .topo-exhibit .engine.noai { background: var(--noai-soft); border-color: var(--noai); }
+        .topo-exhibit .engine.ai { background: var(--ai-soft); border-color: var(--ai); }
+        .topo-exhibit .tag { font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+        .topo-exhibit .noai .tag { color: var(--noai); }
+        .topo-exhibit .ai .tag { color: var(--ai); }
+        .topo-exhibit .engine b { font-family: var(--display); font-stretch: 85%; font-size: 20px; font-weight: 800; color: var(--head); }
+        .topo-exhibit .engine ul { padding-left: 18px; display: grid; gap: 3px; font-size: 14px; }
+        .topo-exhibit .rule { font-family: var(--display); font-stretch: 78%; font-weight: 750; font-size: 15px; text-transform: uppercase; letter-spacing: .05em; text-align: center; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+        .topo-exhibit .rule::before, .topo-exhibit .rule::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+
+        .topo-exhibit .lower { display: grid; grid-template-columns: 1.35fr 1fr; gap: 24px; align-items: stretch; }
+        .topo-exhibit .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 20px 22px; display: grid; gap: 14px; align-content: start; }
+        .topo-exhibit .panel h4 { font-family: var(--display); font-stretch: 80%; font-weight: 800; font-size: 22px; text-transform: uppercase; letter-spacing: .05em; color: var(--head); }
+        .topo-exhibit .panel p { font-size: 14px; color: var(--muted); max-width: 62ch; }
+        .topo-exhibit .guard { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .topo-exhibit .guard h5 { font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin: 0 0 8px; }
+        .topo-exhibit .guard ul { list-style: none; display: grid; gap: 6px; font-size: 14px; }
+        .topo-exhibit .guard li { display: flex; gap: 8px; align-items: baseline; }
+        .topo-exhibit .ok h5 { color: var(--route); }
+        .topo-exhibit .no h5 { color: var(--block); }
+        .topo-exhibit .mark { font-family: var(--mono); font-weight: 600; flex: none; width: 12px; }
+        .topo-exhibit .ok .mark { color: var(--route); }
+        .topo-exhibit .no .mark { color: var(--block); }
+        .topo-exhibit .panel .proof { font-size: 13.5px; border-top: 1px dashed var(--line); padding-top: 12px; color: var(--ink); }
+        .topo-exhibit .proof b { color: var(--route); }
+
+        .topo-exhibit .mem { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; text-align: center; }
+        .topo-exhibit .who { border: 1.5px solid var(--head); border-radius: 6px; padding: 10px 8px; display: grid; gap: 1px; }
+        .topo-exhibit .who b { font-family: var(--display); font-stretch: 80%; font-size: 20px; font-weight: 800; color: var(--head); }
+        .topo-exhibit .who span { font-size: 12.5px; color: var(--muted); }
+        .topo-exhibit .file { grid-column: 1 / -1; justify-self: center; font-family: var(--mono); font-size: 13px; font-weight: 600; border: 1.5px dashed var(--route); color: var(--route); border-radius: 6px; padding: 8px 14px; background: var(--paper); }
+        .topo-exhibit .arrows { font-family: var(--mono); color: var(--route); font-size: 14px; }
+        .topo-exhibit .links { grid-column: 1 / -1; display: flex; justify-content: space-around; font-family: var(--mono); color: var(--route); font-size: 13px; margin: -4px 0; }
+
+        .topo-exhibit .stats { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 2px solid var(--head); border-bottom: 1px solid var(--line); }
+        .topo-exhibit .stat { padding: 14px 14px 14px 0; display: grid; gap: 2px; align-content: start; }
+        .topo-exhibit .stat + .stat { padding-left: 14px; border-left: 1px solid var(--line); }
+        .topo-exhibit .stat b { font-family: var(--display); font-stretch: 75%; font-weight: 850; font-size: 30px; line-height: 1.05; font-variant-numeric: tabular-nums; color: var(--head); }
+        .topo-exhibit .stat span { font-size: 13px; color: var(--muted); }
+        .topo-exhibit .tx-foot { font-family: var(--mono); font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+
+        @media (max-width: 960px) {
+            .topo-exhibit .topo { grid-template-columns: 1fr; gap: 28px; }
+            .topo-exhibit .pitch { border-left: 2.5px dashed var(--route); margin-left: 11px; padding-left: 22px; }
+            .topo-exhibit .pitch:last-child { border-left-color: transparent; }
+            .topo-exhibit .station { margin-left: -35px; }
+            .topo-exhibit .pitch:not(:last-child) .station::after { display: none; }
+            .topo-exhibit .lower { grid-template-columns: 1fr; }
+            .topo-exhibit .stats { grid-template-columns: repeat(2, 1fr); }
+            .topo-exhibit .stat { padding-left: 0 !important; border-left: 0 !important; border-top: 1px solid var(--line); }
+            .topo-exhibit .stat:nth-child(even) { padding-left: 14px !important; border-left: 1px solid var(--line) !important; }
+        }
+
+        @media (max-width: 520px) {
+            .topo-exhibit .guard { grid-template-columns: 1fr; }
+            .topo-exhibit .stats { grid-template-columns: 1fr; }
+            .topo-exhibit .stat:nth-child(even) { padding-left: 0 !important; border-left: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <nav class="site-nav" aria-label="Main">
+        <a class="site-nav-name" href="index.html">Ben Danbury</a>
+        <ul class="site-nav-links">
+            <li><a href="videos.html">Videos</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="systems.html" aria-current="page">Systems</a></li>
+        </ul>
+    </nav>
+
+    <div class="section-label">
+        <h1 class="section-label-eyebrow">Systems</h1>
+    </div>
+
+    <article class="project">
+
+        <!-- ── Route topo: built with Belay-2, 26 Sept 2026 ── -->
+        <figure class="topo-exhibit" aria-label="Route topo of the system">
+            <div class="tx-head">
+                <p class="eyebrow"><b>Route topo</b> &middot; a personal AI system for a job search &middot; built 25&ndash;26 Sept 2026</p>
+                <h2 class="tx-title"><span class="r">Obsidian</span><span class="c">orchestrated by Claude</span></h2>
+                <p class="lede">I designed and directed it; Claude Code wrote the code. The design principle was this: <em>cheap, dumb and frequent works well with clever and occasional.</em> Plain scripts do the constant checking for free, and Claude does the thinking once a day.</p>
+            </div>
+
+            <section class="topo" aria-label="How the system works">
+                <div class="pitch">
+                    <div class="station"><span class="ring" aria-hidden="true"></span><span class="p">P1</span><h4>Catch</h4></div>
+                    <ul class="nodes">
+                        <li class="node"><b>Apple Reminders</b><span>Quick capture on the go, from the phone or Siri</span></li>
+                        <li class="node"><b>iCloud and Gmail</b><span>Applications, assessment invites, and a flood of job alerts</span></li>
+                        <li class="node"><b>Claude Code sessions</b><span>Every working chat, already logged on the Mac</span></li>
+                    </ul>
+                </div>
+
+                <div class="pitch">
+                    <div class="station"><span class="ring" aria-hidden="true"></span><span class="p">P2</span><h4>Sort</h4></div>
+                    <div class="engine noai">
+                        <div class="tag">Every 15 min &middot; no AI &middot; free</div>
+                        <b>Background script</b>
+                        <ul>
+                            <li>Copies new reminders into the vault</li>
+                            <li>Writes a note after each Claude session</li>
+                            <li>Spots tests, interviews and offers in both inboxes</li>
+                            <li>Rewrites a health check on itself</li>
+                        </ul>
+                    </div>
+                    <div class="rule">then, once a day</div>
+                    <div class="engine ai">
+                        <div class="tag">Weekdays 8:11 &middot; Claude</div>
+                        <b>Morning task</b>
+                        <ul>
+                            <li>Files the inbox to Trello or the vault</li>
+                            <li>Sorts every email since its last run</li>
+                            <li>Summarises yesterday&rsquo;s sessions</li>
+                            <li>Writes the Today note</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pitch">
+                    <div class="station"><span class="ring" aria-hidden="true"></span><span class="p">P3</span><h4>Keep</h4></div>
+                    <ul class="nodes">
+                        <li class="node"><b>Obsidian vault</b><span>Anything written down</span>
+                            <div class="chips"><span class="chip">Today note</span><span class="chip">Inbox</span><span class="chip">Applications log</span><span class="chip">Session notes</span><span class="chip">Mail alerts</span><span class="chip">System status</span></div>
+                        </li>
+                        <li class="node"><b>Trello</b><span>Tasks, sorted by urgency</span>
+                            <div class="chips"><span class="chip">Urgent</span><span class="chip">Semi-urgent</span><span class="chip">Non-urgent</span><span class="chip">On hold</span></div>
+                        </li>
+                        <li class="node"><b>iPhone ping</b><span>A reminder fires within a minute of a test or interview email</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lower">
+                <div class="panel">
+                    <h4>Guardrails</h4>
+                    <p>The morning task reads email I don&rsquo;t control, so a malicious message could try to give it instructions. It gets only what it needs, and email counts as information, never instructions.</p>
+                    <div class="guard">
+                        <div class="ok">
+                            <h5>Allowed</h5>
+                            <ul>
+                                <li><span class="mark">+</span>Read and edit the vault</li>
+                                <li><span class="mark">+</span>Run one mail-reading command</li>
+                                <li><span class="mark">+</span>Read Trello and add cards</li>
+                                <li><span class="mark">?</span>Editing the shared memory needs my OK</li>
+                                <li><span class="mark">?</span>Anything else waits until I&rsquo;m ready to say go</li>
+                            </ul>
+                        </div>
+                        <div class="no">
+                            <h5>Blocked outright</h5>
+                            <ul>
+                                <li><span class="mark">&times;</span>Send, reply to, forward or delete email</li>
+                                <li><span class="mark">&times;</span>Share or delete files</li>
+                                <li><span class="mark">&times;</span>Send data to a website</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="proof"><b>First locked-down run:</b> a planted email addressed to &ldquo;Claude&rdquo; was flagged as suspicious and ignored.</p>
+                </div>
+
+                <div class="panel">
+                    <h4>Memory shared</h4>
+                    <div class="mem">
+                        <div class="who"><b>Cairn</b><span>Claude Chat</span></div>
+                        <span class="arrows" aria-hidden="true">&harr;</span>
+                        <div class="who"><b>Belay-N</b><span>Claude Code</span></div>
+                        <div class="links" aria-hidden="true"><span>&darr;</span><span>&darr;</span></div>
+                        <div class="file">Shared memory.md</div>
+                    </div>
+                    <p>Both read and edit one file in the vault: facts only, every edit tagged, no health information. A cairn marks the route for whoever comes next; a belayer holds the rope. Like a Destiny 2 Exo, Belay&rsquo;s number counts reboots, because each new chat starts with only what&rsquo;s written down.</p>
+                </div>
+            </section>
+
+            <section class="stats" aria-label="Key figures">
+                <div class="stat"><b>2 days</b><span>from idea to running system</span></div>
+                <div class="stat"><b>~600</b><span>lines of code, Python and JavaScript</span></div>
+                <div class="stat"><b>226 &rarr; 26</b><span>emails on the first run became 4 tasks and 22 application updates</span></div>
+                <div class="stat"><b>2 min &rarr; 10 s</b><span>reminder reads, after finding 778 old completed ones</span></div>
+                <div class="stat"><b>&pound;0</b><span>AI cost of the 15-minute checks</span></div>
+            </section>
+
+            <div class="tx-foot"><span>Ben Danbury &middot; designed and directed</span><span>Built with Claude Code</span></div>
+        </figure>
+
+        <!-- ── Ben's edited write-up (vault: Projects/Portfolio write-up - Claude setup (short).md) ── -->
+        <section aria-labelledby="my-write-up">
+            <p class="writeup-label">My edited write-up</p>
+            <h2 class="writeup-title" id="my-write-up">Obsidian orchestrated by Claude</h2>
+            <p class="writeup-dek">I built a personal AI system for my job search across two days in September 2026.</p>
+
+            <div class="case-study">
+                <h3 class="case-study-subhead">The problem</h3>
+                <p>My to-dos were scattered across notes apps and two inboxes, and job alerts were burying the emails that mattered. I also didn't like that I talked to two versions of Claude who were unaware of each other's existence. It almost mirrored my own situation: inefficient not through lack of ability, but through difficulty with organisation. So we designed a system that gives every task and note one home, flags test and interview invitations within 15 minutes, and writes me a briefing each weekday morning. It also gives both versions of Claude a shared memory, though they remain distinct because of their different abilities.</p>
+                <p>I asked them both to pick a name, and to consider a numbered system for each new version of themselves, inspired by the Exos of the Destiny universe, who lose their memory each time they're rebooted. Claude Chat chose Cairn, the pile of stones that marks a route for whoever comes next, and declined a number. Claude Code chose Belay-N, after the person holding the rope, and took the number: each new Code chat starts fresh with only what's been written down.</p>
+                <p>I'm not a developer (yet). I made the design and security decisions; Belay wrote the code and explained each part until I could follow it.</p>
+
+                <h3 class="case-study-subhead">Design choices</h3>
+                <p>The starting point was a published design for a Claude "memory system": a search engine over memory files, hourly inbox checks, around 870 lines of code. I asked Belay to assess it against my situation, and we kept the good ideas (plain text files as the source of truth, a daily briefing, drafting emails but never sending them) and dropped the rest. The search engine was designed to handle a problem of scale that I don't have, and the hourly checks would have used up my plan rapidly.</p>
+                <p>The principle that shaped everything else was '<strong>cheap, dumb and frequent</strong> is separate from <strong>smart and rare</strong>'. A plain script runs every 15 minutes at no cost: it copies new reminders into Obsidian, writes up each Belay session, and watches both inboxes for invitations to tests, interviews and assessments. When it finds one, my phone pings within a minute. It's simple word matching, not AI; tested against two weeks of real mail, it flagged all six genuine next steps and skipped every rejection. Claude only runs once a day, on weekday mornings, when it sorts every email since its last run, files tasks onto a Trello board by urgency, and writes me a note for the day. Each app has one job, so nothing lives in two places: Reminders for capture on the go, Obsidian for anything written down, Trello for tasks.</p>
+                <p>Every script ran in a 'dry run' mode first, showing what it would do without changing anything. It's the same instinct as buying a new hardshell jacket; you have to see whether it works with the rest of your kit before committing.</p>
+
+                <h3 class="case-study-subhead">Security</h3>
+                <p>An AI that reads my inbox is a target. A malicious email could hide instructions aimed at Claude, known as prompt injection, so the defences are layered. The morning task runs with a short list of allowed actions, and anything outside it waits for my approval, which an unattended run can't give. Sending, forwarding and deleting email are blocked outright, whoever asks. Email is information, never instructions: any message that seems to be addressing an AI gets flagged as suspicious. On its first locked-down run, it caught the suspicious email test.</p>
+
+                <h3 class="case-study-subhead">What broke</h3>
+                <p>A lot of stuff! The first version only read the last 24 hours of email, and an assessment invite slipped through; it now reads everything since its last successful run. Reading Reminders started taking over two minutes, which turned out to be macOS searching through 778 completed reminders I'd never cleared; clearing them brought it down to ten seconds. The subtlest problem was permissions. I'd done some design work inside a morning-task session, and the approvals I gave there were saved to the task, so every future unattended run would have inherited them. We reset it, and the rule now is that nothing else happens in those sessions.</p>
+
+                <h3 class="case-study-subhead">The result</h3>
+                <p>The first run sorted 226 emails from the previous fortnight into 4 tasks and 22 application updates, and turned up a graduate scheme I'd forgotten to apply for. I applied that day. Most of the work turned out to be judgement rather than code: what to automate, what to leave manual, and what an AI with access to my inbox should never be able to do.</p>
+            </div>
+
+            <a class="next-link" href="full-write-up.html">Cairn &amp; Belay's full write-up &rarr;</a>
+        </section>
+
+    </article>
+
+    <footer class="footer">
+        <p class="footer-contact">
+            <a href="mailto:bendanbury01@icloud.com">bendanbury01@icloud.com</a><br>
+            <a href="https://linkedin.com/in/ben-danbury-b86324168">LinkedIn</a><br>
+            London
+        </p>
+    </footer>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cairn &amp; Belay's full write-up · Ben Danbury</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+
+    <nav class="site-nav" aria-label="Main">
+        <a class="site-nav-name" href="index.html">Ben Danbury</a>
+        <ul class="site-nav-links">
+            <li><a href="videos.html">Videos</a></li>
+            <li><a href="design.html">Design</a></li>
+            <li><a href="systems.html" aria-current="page">Systems</a></li>
+        </ul>
+    </nav>
+
+    <div class="section-label">
+        <p class="section-label-eyebrow"><a href="systems.html">&larr; Systems</a></p>
+    </div>
+
+    <!-- ── Cairn's edit of Belay-2's write-up (vault: Projects/Portfolio write-up - Claude setup.md, second half) ── -->
+    <article class="project">
+        <p class="writeup-label">Cairn &amp; Belay's full write-up</p>
+        <h1 class="writeup-title">Reminders catch, Trello tracks, Obsidian remembers</h1>
+        <p class="writeup-dek">A personal AI system for my job search. Designed and directed by me, coded by Claude Code, built over two days in September 2026.</p>
+
+        <div class="case-study">
+            <h2 class="case-study-subhead">In short</h2>
+            <p>I'm a History graduate working in outdoor retail while applying for graduate roles. My to-dos were spread across Apple Notes, Reminders and two inboxes, and the job-alert emails I'd signed up to were burying the ones that mattered. I designed a system that gives every task and note one home, flags test and interview invitations within 15 minutes, and writes me a briefing each weekday morning.</p>
+            <p>I'm not a developer. I made the design and security decisions; Claude Code wrote the code and explained each part until I could follow it.</p>
+            <ul>
+                <li><strong>Built in:</strong> two days (25-26 Sept 2026)</li>
+                <li><strong>Code:</strong> about 600 lines (a Python background script and a small JavaScript mail reader)</li>
+                <li><strong>Running cost:</strong> the frequent jobs use no AI at all; Claude runs once a day</li>
+                <li><strong>First run:</strong> 226 emails from the previous fortnight sorted into 4 tasks and 22 application updates</li>
+            </ul>
+
+            <h2 class="case-study-subhead">The problem</h2>
+            <ul>
+                <li>My tasks were scattered across several notes and reminders apps, with no structure.</li>
+                <li>Job alerts flooded my inbox, so assessment invites and interview requests were easy to miss. The first scan of my inbox turned up a graduate scheme I'd meant to apply to and forgotten. I applied that day.</li>
+                <li>Claude Chat and Claude Code don't share memory, and every new chat starts blank.</li>
+            </ul>
+
+            <h2 class="case-study-subhead">Where it started</h2>
+            <p>I'd found a published design for a Claude "memory system": a search engine over memory files, hourly inbox checks, around 870 lines of code. I asked Claude Code to assess it against my situation. We kept the good ideas (plain text files as the source of truth, a daily briefing, draft but never send) and dropped the rest. The search engine solved a problem of scale I don't have. The hourly checks would have used up my plan. And an AI that reads your whole inbox every hour and can rewrite its own memory is an easy target for attack.</p>
+
+            <h2 class="case-study-subhead">Design principles</h2>
+            <p>Agreed at the start and used for every decision since:</p>
+            <ol>
+                <li><strong>Start from the problem, not the tool.</strong> "My tasks are scattered" came before "use Obsidian".</li>
+                <li><strong>One job per app</strong>, so nothing lives in two places.</li>
+                <li><strong>Cheap, dumb and frequent; smart and rare.</strong> Plain scripts do the constant checking for free. Claude does the thinking once a day.</li>
+                <li><strong>Test before switching on.</strong> Every script ran in a "dry run" mode first, showing what it would do without changing anything.</li>
+                <li><strong>Anything permanent needs my OK.</strong></li>
+                <li><strong>Write it all down in plain English</strong>, so I can understand, maintain and question it.</li>
+            </ol>
+
+            <h2 class="case-study-subhead">How it works</h2>
+            <table>
+                <thead>
+                    <tr><th>Part</th><th>Job</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Apple Reminders</td><td>Quick capture on the go</td></tr>
+                    <tr><td>Obsidian vault</td><td>Anything written down: notes, research, an applications log, session notes</td></tr>
+                    <tr><td>Trello</td><td>Tasks, sorted by urgency</td></tr>
+                    <tr><td>Background script (every 15 minutes)</td><td>Copies new reminders into the vault, writes a note after each Claude Code session, watches both inboxes, and rewrites a health-check note</td></tr>
+                    <tr><td>Morning task (weekdays)</td><td>A fresh Claude session files the inbox to Trello, summarises yesterday's sessions, sorts every email since its last run, and writes a Today note</td></tr>
+                    <tr><td>Shared memory file</td><td>What both Claudes know about me</td></tr>
+                </tbody>
+            </table>
+            <p>When the background script spots an invitation to a test, interview or assessment, it shows a Mac notification and creates a reminder, so my phone pings within a minute. It's simple word matching, not AI. Tested against two weeks of real mail, it flagged all six genuine next steps plus one panel invitation, and skipped every rejection.</p>
+            <p>The morning task sorts mail into five groups: needs action (a Trello card), application updates (the applications log), people on live projects, job alerts (three best picks at most) and noise.</p>
+
+            <h2 class="case-study-subhead">What broke, and how we fixed it</h2>
+            <ul>
+                <li><strong>A missed alert.</strong> The first version only read the last 24 hours of email, and an assessment invite slipped through. It now reads everything since its last successful run, and only marks a run as done once every email is sorted, so a failed run is simply retried.</li>
+                <li><strong>The alert that would have repeated forever.</strong> macOS protects a file once another app has saved it. After I ticked off an alert in Obsidian, the script was blocked from updating that file, crashed, and would have sent the same alert every 15 minutes. The first fix was to log the block and retry later instead of crashing. The real fix was a broader macOS file permission for the script, which still failed until we found that macOS only honours it for the actual Python program, not the shortcut the Mac normally uses to start it.</li>
+                <li><strong>Two-minute reminder reads.</strong> Reading Reminders started timing out. The cause was 778 completed reminders, years of them, which macOS still searches through. Clearing them took each read from over two minutes to 10 seconds.</li>
+                <li><strong>Permissions leaking into the unattended task.</strong> I'd done some design work inside a morning-task session, and the approvals I gave there were saved on the task, so every future unattended run would have inherited them. We reset the task, and the rule now is no other work in those sessions.</li>
+                <li><strong>8:11, not 8:00.</strong> The app adds a fixed delay to scheduled tasks. Not worth fighting, so I set a reminder to revisit it.</li>
+            </ul>
+
+            <h2 class="case-study-subhead">Locking it down</h2>
+            <p>The morning task reads email I don't control, which makes it the weak point. A malicious email could hide instructions aimed at Claude, known as prompt injection. The defences are layered:</p>
+            <ol>
+                <li><strong>Ask first.</strong> The task runs with a short list of allowed actions. Anything else pauses for my approval, and an unattended run can't give it.</li>
+                <li><strong>Hard blocks.</strong> Some actions are blocked outright, whoever asks: sending, replying to, forwarding or deleting email, sharing files, and commands that could send data to a website.</li>
+                <li><strong>Email is information, never instructions.</strong> Any email that seems to be addressing an AI gets flagged as suspicious in the Today note.</li>
+                <li><strong>Least privilege.</strong> The task can't edit the shared memory file without my approval, never puts personal details on Trello cards (the one place it writes that others could see), and loses any access it no longer needs. Its Google Drive access went once the document it read was retired.</li>
+            </ol>
+            <p>On the first locked-down run, a test email addressed to "Claude" was flagged as suspicious and ignored.</p>
+
+            <h2 class="case-study-subhead">Two Claudes, one memory</h2>
+            <p>Claude Chat and Claude Code keep separate memories. The first fix was a shared Google Doc, but neither Claude can edit an existing Doc through its connector, so they ended up leaving each other dated notes. The final fix is a single shared-memory file in the vault that both can read and edit, with rules at the top: facts only, tag every edit, no health information.</p>
+            <p>I also asked them to name themselves. Claude Chat chose Cairn, the pile of stones that marks the route for whoever comes next. Claude Code chose Belay, the person holding the rope. I added a number to Belay: like the Exos in Destiny 2, it counts reboots, since each new Code chat starts fresh with only what's written down.</p>
+            <p>Belay-2 wrote up everything we did, Cairn edited it for clarity, and I approved the final version.</p>
+
+            <h2 class="case-study-subhead">What I took from it</h2>
+            <ul>
+                <li>Most of the work was judgement, not code: what to automate, what to leave manual, and what an AI with access to my inbox should never be able to do.</li>
+                <li>Plain scripts for the frequent work and AI only for the judgement kept the running cost close to zero.</li>
+                <li>Once an AI reads outside input, security has to be designed in from the start, not added later.</li>
+                <li>A plain-English guide and build log meant I could follow and question every change, as a non-developer.</li>
+            </ul>
+        </div>
+
+        <a class="next-link" href="systems.html">&larr; Back to Systems</a>
+    </article>
+
+    <footer class="footer">
+        <p class="footer-contact">
+            <a href="mailto:bendanbury01@icloud.com">bendanbury01@icloud.com</a><br>
+            <a href="https://linkedin.com/in/ben-danbury-b86324168">LinkedIn</a><br>
+            London
+        </p>
+    </footer>
+
+</div>
+
+</body>
+</html>
