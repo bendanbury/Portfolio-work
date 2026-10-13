@@ -1,131 +1,201 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-GB">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cairn &amp; Belay's full write-up · Ben Danbury</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The note you’d leave for a colleague · Ben Danbury</title>
+<meta name="description" content="The full write-up of Vulcan: how I direct a small team of AI agents to help me stay organised.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The note you’d leave for a colleague">
+<meta property="og:description" content="How I direct a small team of AI agents to help me stay organised.">
+<meta property="og:url" content="https://bendanbury.github.io/Portfolio-work/full-write-up.html">
+<meta property="og:image" content="https://bendanbury.github.io/Portfolio-work/assets/systems/vulcan-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&display=swap" rel="stylesheet">
+<style>
+/* The full write-up of Vulcan, in the Systems page's type and colours (see systems.html).
+   Headings sit on columns 1 to 4 and the text from column 5, the reading line the Systems page uses.
+   The source of these words is the vault note "Write-up, final"; change that first, then this. */
+:root {
+  --paper: #ffffff;
+  --ink: #0a0a0f;
+  --body: #2b2b36;
+  --muted: #5c5c6a;
+  --rule: #d6d6dc;
+  --orange-ink: #c2410c;
+  --violet: #5b21b6;
+  --violet-hover: #7c3aed;
+  --wash: #f3efff;
+  --margin: 64px;
+  --gap: 24px;
+  --display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--body); font-family: var(--display); font-size: 18px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--wash); color: var(--ink); }
+h1, h2, p, figure { margin: 0; padding: 0; }
+a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:focus-visible { outline: 2px solid var(--violet); outline-offset: 4px; }
+
+.wrap { padding: 0 var(--margin); }
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+.display { font-weight: 800; font-stretch: 75%; letter-spacing: -0.015em; word-spacing: 0.12em; color: var(--ink); }
+.ag { color: var(--orange-ink); font-weight: 650; }
+.vn { color: var(--ink); font-weight: 650; }
+.ob { color: var(--violet); font-weight: 650; }
+
+.site-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 24px; padding-top: 22px; padding-bottom: 22px; }
+.site-name { font-weight: 700; font-size: 18px; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.site-nav { display: flex; gap: 28px; font-size: 15px; }
+.site-nav a { text-decoration: none; color: var(--body); padding: 6px 0; }
+.site-nav a:hover { color: var(--violet); }
+.site-nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; }
+.site-foot { margin-top: 96px; padding-bottom: 40px; font-size: 15px; }
+.site-foot .in { border-top: 1px solid var(--ink); padding-top: 18px; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px 28px; }
+.site-foot .site-name { font-size: 15px; }
+.foot-links { display: flex; align-items: baseline; gap: 28px; }
+.foot-links a { text-decoration: none; padding: 6px 0; }
+.foot-links a:hover { color: var(--violet); text-decoration: underline; }
+
+.back { color: var(--violet); font-size: 16px; font-weight: 600; text-decoration: none; padding: 6px 0; display: inline-block; }
+.back:hover { color: var(--violet-hover); text-decoration: underline; }
+
+.top { margin-top: 40px; padding-bottom: 36px; border-bottom: 2px solid var(--ink); }
+.top .back { grid-column: 1 / -1; margin-bottom: 20px; }
+.top h1 { grid-column: 1 / 11; font-size: clamp(56px, 7vw, 104px); line-height: 0.95; font-weight: 900; font-stretch: 78%; letter-spacing: -0.025em; }
+.top .standfirst { grid-column: 5 / 12; margin-top: 28px; font-weight: 600; font-stretch: 87%; font-size: 26px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
+
+.part { padding: 32px 0 36px; align-items: start; }
+.part + .part { border-top: 1px solid var(--rule); }
+.part h2 { grid-column: 1 / 5; font-size: 30px; line-height: 1.08; padding-right: 16px; }
+.part .text { grid-column: 5 / 12; max-width: 38em; }
+.text p + p { margin-top: 1em; }
+.end { margin-top: 0; border-top: 2px solid var(--ink); padding-top: 22px; }
+.end .back { grid-column: 5 / 12; }
+
+@media (max-width: 1100px) {
+  :root { --margin: 40px; --gap: 20px; }
+  .part h2 { grid-column: 1 / -1; margin-bottom: 14px; }
+  .part .text, .top .standfirst, .end .back { grid-column: 1 / 11; }
+}
+@media (max-width: 699px) {
+  :root { --margin: 16px; --gap: 16px; }
+  body { font-size: 17px; }
+  .site-head { padding-top: 10px; padding-bottom: 10px; }
+  .site-name { padding: 10px 0; font-size: 17px; }
+  .site-nav { gap: 18px; }
+  .site-nav a, .foot-links a, .back { display: inline-block; padding: 12px 0; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .grid > * { grid-column: 1 / -1 !important; }
+  .top { margin-top: 16px; padding-bottom: 28px; }
+  .top .back { margin-bottom: 8px; }
+  .top h1 { font-size: min(64px, 14vw); }
+  .top .standfirst { margin-top: 20px; font-size: 22px; }
+  .part { padding: 24px 0 28px; }
+  .part h2 { font-size: 26px; margin-bottom: 12px; }
+  .site-foot { margin-top: 64px; padding-bottom: 36px; }
+  .site-foot .in { flex-direction: column; gap: 0; padding-top: 8px; }
+}
+</style>
 </head>
 <body>
 
-<div class="container">
+<header class="site-head wrap">
+  <a class="site-name" href="index.html">Ben Danbury</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="videos.html">Videos</a>
+    <a href="design.html">Design</a>
+    <a href="systems.html" aria-current="page">Systems</a>
+  </nav>
+</header>
 
-    <nav class="site-nav" aria-label="Main">
-        <a class="site-nav-name" href="index.html">Ben Danbury</a>
-        <ul class="site-nav-links">
-            <li><a href="videos.html">Videos</a></li>
-            <li><a href="design.html">Design</a></li>
-            <li><a href="systems.html" aria-current="page">Systems</a></li>
-        </ul>
-    </nav>
+<main class="wrap">
+  <header class="top grid">
+    <a class="back" href="systems.html">← Vulcan</a>
+    <h1 class="display">The note you’d leave for a colleague</h1>
+    <p class="standfirst">How I direct a small team of AI agents to help me stay organised</p>
+  </header>
 
-    <div class="section-label">
-        <p class="section-label-eyebrow"><a href="systems.html">&larr; Systems</a></p>
+  <section class="part grid">
+    <div class="text">
+      <p>On most weekday mornings, before I’ve done anything, my email has been sorted into tasks on a Trello board, a note for the day is waiting for me, and at 9am my phone gets one line on what the day is mostly about. If something important has come in, my phone has already pinged. The sorting is done by an AI agent called <span class="ag">Lark</span>, which is usually up and scouring my emails before I start to work. Lark is one of a small team of AI agents that I direct, all working in a system called <span class="vn">Vulcan</span>.</p>
+      <p>It started in September, when my to-dos were scattered across notes apps and two inboxes, and job alerts were burying the emails that were important. I’m a History graduate who works as a technical retail advisor in an outdoor shop in London, and a big rock climber; I’m not a developer (yet). The first version took two days in September to build and covered only my work-related projects; it now helps with my volunteering work too. It has brought order to what often felt like chaos and made me much more productive.</p>
+      <p>The AI is Claude, made by Anthropic, which I use in two forms: Claude Chat, an ordinary chat app, and Claude Code, which works on my Mac and can write and run code. An agent, here, is Claude given one job and a name.</p>
     </div>
+  </section>
 
-    <!-- ── Cairn's edit of Belay-2's write-up (vault: Projects/Portfolio write-up - Claude setup.md, second half) ── -->
-    <article class="project">
-        <p class="writeup-label">Cairn &amp; Belay's full write-up</p>
-        <h1 class="writeup-title">Reminders catch, Trello tracks, Obsidian remembers</h1>
-        <p class="writeup-dek">A personal AI system for my job search. Designed and directed by me, coded by Claude Code, built over two days in September 2026.</p>
+  <section class="part grid">
+    <h2 class="display">Every agent starts blank, so my notes are their memory</h2>
+    <div class="text">
+      <p>Each new chat with an AI starts with no memory of the last one, which is a poor basis for a team. Everything that has to survive is therefore written down in plain notes in one <span class="ob">Obsidian</span> vault (Obsidian is a notes app that keeps ordinary text files on my Mac; my vault is called the Last City, after a place in the video game Destiny). The main agents start each chat by reading a short shared memory file and a handover note, update the handover at the end, and tag everything they write with who wrote it and when. It’s the note you’d leave for a colleague, except that your colleague is given nothing but the note. Methods for repeat jobs are written down once as well, so whoever picks one up does it the same way. Nothing alters the way I work until I manually approve it, and no agent’s rules change without that agent signing off too. Each app has one job, which means that nothing lives in two places; I use Reminders to write stuff down on the go, my Trello board tracks everything I need to do, and most importantly, Obsidian remembers everything I want to remember.</p>
+    </div>
+  </section>
 
-        <div class="case-study">
-            <h2 class="case-study-subhead">In short</h2>
-            <p>I'm a History graduate working in outdoor retail while applying for graduate roles. My to-dos were spread across Apple Notes, Reminders and two inboxes, and the job-alert emails I'd signed up to were burying the ones that mattered. I designed a system that gives every task and note one home, flags test and interview invitations within 15 minutes, and writes me a briefing each weekday morning.</p>
-            <p>I'm not a developer. I made the design and security decisions; Claude Code wrote the code and explained each part until I could follow it.</p>
-            <ul>
-                <li><strong>Built in:</strong> two days (25-26 Sept 2026)</li>
-                <li><strong>Code:</strong> about 600 lines (a Python background script and a small JavaScript mail reader)</li>
-                <li><strong>Running cost:</strong> the frequent jobs use no AI at all; Claude runs once a day</li>
-                <li><strong>First run:</strong> 226 emails from the previous fortnight sorted into 4 tasks and 22 application updates</li>
-            </ul>
+  <section class="part grid">
+    <h2 class="display">Most of the agents chose their own names</h2>
+    <div class="text">
+      <p>I asked the first two to pick a name. Claude Chat, which I mainly talk things through with, chose <span class="ag">Cairn</span>, the pile of stones that marks a route for whoever comes next. Claude Code, which built the setup and now handles my work-related projects, chose <span class="ag">Belay</span>, after the person holding the rope. Both are climbing words; I didn’t suggest either.</p>
+      <p>Belay also took a number (Belay-1, Belay-2, and so on); Cairn declined one. Each new work-related chat is the next Belay and starts with only what’s written down. The number keeps one identity, so every Belay has the same job and values, while letting two run at once on different jobs; and because most of what they write carries it, I can see which one did what. It’s borrowed from Destiny, where Exos, human minds in machine bodies, lose their memory each time they’re reset, and some carry the count in their name.</p>
+      <p>Since the 8th of October, a second Claude Code agent, <span class="ag">Kochi</span>, numbered the same way, has looked after my volunteering (Climbers Against Cancer and the Mountain Adventure Fund) as well as my portfolio work. I named that one. I asked other agents for their own suggestions, but none of their choices felt like they fit an agent created to help with my charity volunteering. The name comes from my trip to Japan in July 2026, which partly inspired a project I’ve started with one of those charities; it’s still in its early stages, but it’s about people, community, and getting into the outdoors. At the top of Tsurugisan, the second-highest mountain on Shikoku (the island Kochi City is on), the summit hut sells a Montbell T-shirt you can’t buy anywhere else; climbers love stickers, and my water bottle has a Kochi City climbing gym sticker on it.</p>
+      <p>On the 9th of October a third agent, <span class="ag">Setter</span>, took over the upkeep of the system itself: the scripts, the morning job, and the settings. It turned down my suggestion, Architect, and named itself after the route setter in a climbing gym, who builds the climbs everyone else uses.</p>
+    </div>
+  </section>
 
-            <h2 class="case-study-subhead">The problem</h2>
-            <ul>
-                <li>My tasks were scattered across several notes and reminders apps, with no structure.</li>
-                <li>Job alerts flooded my inbox, so assessment invites and interview requests were easy to miss. The first scan of my inbox turned up a graduate scheme I'd meant to apply to and forgotten. I applied that day.</li>
-                <li>Claude Chat and Claude Code don't share memory, and every new chat starts blank.</li>
-            </ul>
+  <section class="part grid">
+    <h2 class="display">Using agents means paying attention to security</h2>
+    <div class="text">
+      <p>I built the setup assuming that anything reading my email could be talked into doing things: an email can hide instructions written for an AI rather than for me, which is called prompt injection. This means that when designing the system, I needed to limit what an agent could do with the information that it receives; sending, forwarding, and deleting email are blocked outright in the settings. Lark runs with a short list of allowed actions - anything outside it waits for my approval in person. When answering one question means having to read months of email, such as ‘which threads still need a reply’, I call in an agent called <span class="ag">Plumb</span>, named for measuring depth, which can read and do nothing else.</p>
+      <p>On its first day, Setter tested its own limits with a decoy file, and the block on email held. Then it found a gap by accident: it changed the shared memory file with a plain command in the Mac’s terminal, and nothing asked me to approve the change. This was because the rules that make an agent ask before changing important files only covered its editing tool.</p>
+      <p>It then built a guard that checks every command first, and switched it on for all three Claude Code agents once they and I had all agreed.</p>
+    </div>
+  </section>
 
-            <h2 class="case-study-subhead">Where it started</h2>
-            <p>I'd found a published design for a Claude "memory system": a search engine over memory files, hourly inbox checks, around 870 lines of code. I asked Claude Code to assess it against my situation. We kept the good ideas (plain text files as the source of truth, a daily briefing, draft but never send) and dropped the rest. The search engine solved a problem of scale I don't have. The hourly checks would have used up my plan. And an AI that reads your whole inbox every hour and can rewrite its own memory is an easy target for attack.</p>
+  <section class="part grid">
+    <h2 class="display">Division of labour works for agents too</h2>
+    <div class="text">
+      <p>This is how I designed the system. A plain script, with no AI in it, runs every 15 minutes without costing tokens (each week has a limited token allowance). It copies new reminders into the vault, writes a note after each Claude session, and watches both inboxes for anything important. It’s simple word matching; tested against two weeks of real email, it flagged all six genuine next steps and skipped every single rejection. Lark, the email-checking agent, runs once a morning; the specialists only show up when I need them. For simple reading jobs, such as checking whether a graduate scheme has opened, an agent on a smaller, cheaper model does the work: <span class="ag">Juniper</span>, which chose its name because it wanted one that no-one else had.</p>
+    </div>
+  </section>
 
-            <h2 class="case-study-subhead">Design principles</h2>
-            <p>Agreed at the start and used for every decision since:</p>
-            <ol>
-                <li><strong>Start from the problem, not the tool.</strong> "My tasks are scattered" came before "use Obsidian".</li>
-                <li><strong>One job per app</strong>, so nothing lives in two places.</li>
-                <li><strong>Cheap, dumb and frequent; smart and rare.</strong> Plain scripts do the constant checking for free. Claude does the thinking once a day.</li>
-                <li><strong>Test before switching on.</strong> Every script ran in a "dry run" mode first, showing what it would do without changing anything.</li>
-                <li><strong>Anything permanent needs my OK.</strong></li>
-                <li><strong>Write it all down in plain English</strong>, so I can understand, maintain and question it.</li>
-            </ol>
+  <section class="part grid">
+    <h2 class="display">We planned everything meticulously…and it still broke</h2>
+    <div class="text">
+      <p>Every script ran in a ‘dry run’ first, showing what it would do without changing anything. It’s the same instinct as buying a new waterproof shell jacket; you have to see whether it works with the rest of your kit before committing. Our new waterproof shell jacket was less than waterproof; thankfully we weren’t halfway up a mountain. The first version read only the previous 24 hours of email, and an assessment invitation slipped through. Now, it reads everything since its last successful run. The worse mistake was mine: while doing design work inside one of Lark’s sessions, I gave a few approvals, and the app kept them for every future run of the morning job. For those of you who aren’t developers (we’re in the same boat), this meant that the job that reads email from strangers would have kept permissions I’d only meant to give for one afternoon of design work.</p>
+      <p>We reset it, and nothing else happens in those sessions now.</p>
+      <p>I set the rules for the agents; they write and test the code. We both notice issues and work together to fix them. Testing the graduate scheme checker, Belay caught two of its own mistakes: treating Juniper’s ‘unclear’ as an answer would have turned eight schemes into false Trello cards, and dead job-board pages would have deleted schemes that reopen every year. Both were fixed before it went live, and when in doubt it now does nothing.</p>
+      <p>When an agent gets it wrong, the cause is often my brief, not the agent.</p>
+      <p>Mistakes are also easier to undo now. Since the 12th of October, every change to the setup goes through Git, a tool that developers use to keep every version of their files. Each change is made on a copy first and only goes live once I’ve approved it. Git records which agent changed what, and why they did so. Any change can be undone in one simple step.</p>
+    </div>
+  </section>
 
-            <h2 class="case-study-subhead">How it works</h2>
-            <table>
-                <thead>
-                    <tr><th>Part</th><th>Job</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Apple Reminders</td><td>Quick capture on the go</td></tr>
-                    <tr><td>Obsidian vault</td><td>Anything written down: notes, research, an applications log, session notes</td></tr>
-                    <tr><td>Trello</td><td>Tasks, sorted by urgency</td></tr>
-                    <tr><td>Background script (every 15 minutes)</td><td>Copies new reminders into the vault, writes a note after each Claude Code session, watches both inboxes, and rewrites a health-check note</td></tr>
-                    <tr><td>Morning task (weekdays)</td><td>A fresh Claude session files the inbox to Trello, summarises yesterday's sessions, sorts every email since its last run, and writes a Today note</td></tr>
-                    <tr><td>Shared memory file</td><td>What both Claudes know about me</td></tr>
-                </tbody>
-            </table>
-            <p>When the background script spots an invitation to a test, interview or assessment, it shows a Mac notification and creates a reminder, so my phone pings within a minute. It's simple word matching, not AI. Tested against two weeks of real mail, it flagged all six genuine next steps plus one panel invitation, and skipped every rejection.</p>
-            <p>The morning task sorts mail into five groups: needs action (a Trello card), application updates (the applications log), people on live projects, job alerts (three best picks at most) and noise.</p>
+  <section class="part grid">
+    <h2 class="display">Two weeks on</h2>
+    <div class="text">
+      <p>By the 8th of October there had been 21 Belay chats in two weeks, and five Kochi chats on Kochi’s first day; the agents had written over 1,500 lines of Python and JavaScript. The first run of the morning agent turned 226 emails from the previous fortnight into 4 tasks and 22 application updates, and found a graduate scheme I’d forgotten to apply for. I applied that day.</p>
+      <p>The system grows and changes every workday; the ‘team’ (my agents and I) will add to this page as it does.</p>
+    </div>
+  </section>
 
-            <h2 class="case-study-subhead">What broke, and how we fixed it</h2>
-            <ul>
-                <li><strong>A missed alert.</strong> The first version only read the last 24 hours of email, and an assessment invite slipped through. It now reads everything since its last successful run, and only marks a run as done once every email is sorted, so a failed run is simply retried.</li>
-                <li><strong>The alert that would have repeated forever.</strong> macOS protects a file once another app has saved it. After I ticked off an alert in Obsidian, the script was blocked from updating that file, crashed, and would have sent the same alert every 15 minutes. The first fix was to log the block and retry later instead of crashing. The real fix was a broader macOS file permission for the script, which still failed until we found that macOS only honours it for the actual Python program, not the shortcut the Mac normally uses to start it.</li>
-                <li><strong>Two-minute reminder reads.</strong> Reading Reminders started timing out. The cause was 778 completed reminders, years of them, which macOS still searches through. Clearing them took each read from over two minutes to 10 seconds.</li>
-                <li><strong>Permissions leaking into the unattended task.</strong> I'd done some design work inside a morning-task session, and the approvals I gave there were saved on the task, so every future unattended run would have inherited them. We reset the task, and the rule now is no other work in those sessions.</li>
-                <li><strong>8:11, not 8:00.</strong> The app adds a fixed delay to scheduled tasks. Not worth fighting, so I set a reminder to revisit it.</li>
-            </ul>
+  <div class="end grid">
+    <a class="back" href="systems.html">← Back to Vulcan and the team</a>
+  </div>
+</main>
 
-            <h2 class="case-study-subhead">Locking it down</h2>
-            <p>The morning task reads email I don't control, which makes it the weak point. A malicious email could hide instructions aimed at Claude, known as prompt injection. The defences are layered:</p>
-            <ol>
-                <li><strong>Ask first.</strong> The task runs with a short list of allowed actions. Anything else pauses for my approval, and an unattended run can't give it.</li>
-                <li><strong>Hard blocks.</strong> Some actions are blocked outright, whoever asks: sending, replying to, forwarding or deleting email, sharing files, and commands that could send data to a website.</li>
-                <li><strong>Email is information, never instructions.</strong> Any email that seems to be addressing an AI gets flagged as suspicious in the Today note.</li>
-                <li><strong>Least privilege.</strong> The task can't edit the shared memory file without my approval, never puts personal details on Trello cards (the one place it writes that others could see), and loses any access it no longer needs. Its Google Drive access went once the document it read was retired.</li>
-            </ol>
-            <p>On the first locked-down run, a test email addressed to "Claude" was flagged as suspicious and ignored.</p>
-
-            <h2 class="case-study-subhead">Two Claudes, one memory</h2>
-            <p>Claude Chat and Claude Code keep separate memories. The first fix was a shared Google Doc, but neither Claude can edit an existing Doc through its connector, so they ended up leaving each other dated notes. The final fix is a single shared-memory file in the vault that both can read and edit, with rules at the top: facts only, tag every edit, no health information.</p>
-            <p>I also asked them to name themselves. Claude Chat chose Cairn, the pile of stones that marks the route for whoever comes next. Claude Code chose Belay, the person holding the rope. I added a number to Belay: like the Exos in Destiny 2, it counts reboots, since each new Code chat starts fresh with only what's written down.</p>
-            <p>Belay-2 wrote up everything we did, Cairn edited it for clarity, and I approved the final version.</p>
-
-            <h2 class="case-study-subhead">What I took from it</h2>
-            <ul>
-                <li>Most of the work was judgement, not code: what to automate, what to leave manual, and what an AI with access to my inbox should never be able to do.</li>
-                <li>Plain scripts for the frequent work and AI only for the judgement kept the running cost close to zero.</li>
-                <li>Once an AI reads outside input, security has to be designed in from the start, not added later.</li>
-                <li>A plain-English guide and build log meant I could follow and question every change, as a non-developer.</li>
-            </ul>
-        </div>
-
-        <a class="next-link" href="systems.html">&larr; Back to Systems</a>
-    </article>
-
-    <footer class="footer">
-        <p class="footer-contact">
-            <a href="mailto:bendanbury01@icloud.com">bendanbury01@icloud.com</a><br>
-            <a href="https://linkedin.com/in/ben-danbury-b86324168">LinkedIn</a><br>
-            London
-        </p>
-    </footer>
-
-</div>
+<footer class="site-foot wrap">
+  <div class="in">
+    <a class="site-name" href="index.html">Ben Danbury</a>
+    <div class="foot-links">
+      <a href="mailto:bendanbury01@icloud.com">Email</a>
+      <a href="https://linkedin.com/in/ben-danbury-b86324168">LinkedIn</a>
+      <span>London</span>
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>

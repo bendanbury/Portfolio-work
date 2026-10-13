@@ -609,35 +609,6 @@ body {
     transform: translateX(4px);
 }
 
-/* ── Systems: write-ups ── */
-.writeup-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 14px;
-}
-
-.writeup-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 36px;
-    font-weight: 600;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    margin-bottom: 14px;
-}
-
-.writeup-dek {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 21px;
-    font-style: italic;
-    line-height: 1.4;
-    color: var(--muted);
-    margin-bottom: 40px;
-}
-
 .case-study strong {
     font-weight: 500;
 }
@@ -689,29 +660,8 @@ body {
     width: 36%;
 }
 
-.next-link {
-    display: block;
-    margin-top: 48px;
-    border: 1px solid var(--rule);
-    border-left: 2px solid var(--accent);
-    padding: 18px 20px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 1.25;
-    color: var(--ink);
-    text-decoration: none;
-    transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.next-link:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-}
-
 @media (max-width: 600px) {
     .tile-items li { font-size: 21px; }
-    .writeup-title { font-size: 30px; }
     .case-study td:first-child { width: 40%; }
 }
 
