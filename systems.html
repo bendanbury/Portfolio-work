@@ -249,7 +249,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
   .title { grid-row: 1; margin: 0; padding-top: 6px; font-size: min(120px, 29vw); line-height: 0.95; }
   .photo { grid-row: 1; margin: 0 calc(var(--margin) * -1); }
   .photo img { height: auto; aspect-ratio: 3 / 4; object-position: var(--pos-phone, 50% 0); }
-  .photo figcaption { position: static; padding: 0 16px; font-size: 13px; margin-top: 8px; }
+  .photo figcaption { position: static; padding: 0 16px; font-size: 13px; margin-top: 20px; }   /* below the orange line, which sits 8px under the photo */
+  .floor .h { stroke-opacity: 0.08; }   /* the grid a few shades lighter on a phone (Ben, 13 Oct) */
+  .floor .v { stroke-opacity: 0.2; }
   .standfirst { grid-row: 2; padding: 28px 0 32px; font-size: 25px; }
 
   .syn { margin-top: 8px; row-gap: 14px; }
@@ -349,23 +351,23 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
    its part in the shimmer all follow from it.
    ------------------------------------------------------------------ */
 const TEAM = [
-  { id: "cairn", name: "Cairn", kind: "Claude Chat", rhythm: "When I want to talk", numbered: false,
+  { id: "cairn", name: "Cairn", kind: "Main agent", rhythm: "When I want to talk", numbered: false,
     job: "Helps me find the line",
     line: "I'm who Ben talks things through with: I help him think, write, and decide.",
     name_note: "Chose its own name: the pile of stones that marks a route for whoever comes next. Declined a number." },
-  { id: "belay", name: "Belay", kind: "Claude Code", rhythm: "Each working chat", numbered: true,
+  { id: "belay", name: "Belay", kind: "Main agent", rhythm: "Each working chat", numbered: true,
     job: "Handles my professional life",
     line: "I handle Ben's professional work, then leave notes for the next Belay.",
     name_note: "Chose its own name, after the person holding the rope. Took a number: each new chat is the next Belay. It starts with what's written down and nothing else." },
-  { id: "kochi", name: "Kochi", kind: "Claude Code", rhythm: "Each working chat", numbered: true,
+  { id: "kochi", name: "Kochi", kind: "Main agent", rhythm: "Each working chat", numbered: true,
     job: "Gives back to the mountains",
     line: "I help with Ben's volunteering and creative work, then write it all down so the next Kochi can pick it up.",
     name_note: "I named this one after my trip to Japan: a Montbell T-shirt sold only in the summit hut on Tsurugisan, on Shikoku (the island Kochi City is on), and a Kochi City climbing gym sticker on my water bottle." },
-  { id: "setter", name: "Setter", kind: "Claude Code", rhythm: "Each working chat", numbered: true,
+  { id: "setter", name: "Setter", kind: "Main agent", rhythm: "Each working chat", numbered: true,
     job: "Keeps the holds from spinning",
     line: "I look after the rules and tools Ben's other AI assistants use, changing nothing without asking.",
     name_note: "Turned down my suggestion, Architect, and named itself after the route setter in a climbing gym, who builds the climbs everyone else uses." },
-  { id: "lark", name: "Lark", kind: "The morning agent", rhythm: "Each weekday morning", numbered: false,
+  { id: "lark", name: "Lark", kind: "Scheduled agent", rhythm: "Each morning", numbered: false,
     job: "Sorts out daily email",
     line: "I'm the early riser of Ben's AI team: I read his overnight email and send a short morning brief.",
     name_note: "It's up first." },
@@ -377,7 +379,7 @@ const TEAM = [
     job: "Checks graduate schemes",
     line: "I read graduate scheme job pages and report whether each one is open, closed, or coming soon.",
     name_note: "Wanted a name no one else had." },
-  { id: "spotters", name: "The Spotters", kind: "Six reviewers: Voice, Reader, Accuracy, Structure, Restraint, and Beta", rhythm: "On call", numbered: false,
+  { id: "spotters", name: "The Spotters", kind: "Specialists: six reviewers (Voice, Reader, Accuracy, Structure, Restraint, and Beta)", rhythm: "On call", numbered: false,
     job: "Review my written drafts",
     line: "Six reviewers who each read Ben's writing one way, catching what he'd miss.",
     name_note: "In climbing, a spotter stands below a climber, ready to catch a fall." },
@@ -496,7 +498,7 @@ function drawFloor() {
   const heroBox = hero.getBoundingClientRect(), heroTop = heroBox.top;
   const horizon = wide.matches
     ? document.getElementById("base").getBoundingClientRect().top - heroTop
-    : document.getElementById("photo-img").getBoundingClientRect().bottom - heroTop;
+    : document.getElementById("photo-img").getBoundingClientRect().bottom - heroTop + 8;   /* phone: a clear 8px gap under the photo (Ben, 13 Oct) */
   hero.style.setProperty("--horizon", Math.round(horizon) + "px");
   floor.style.height = floor.style.bottom = floor.style.clipPath = "";
   const W = floor.clientWidth, H = floor.clientHeight;   /* H: horizon to the photo's foot */
