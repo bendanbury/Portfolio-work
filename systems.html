@@ -197,11 +197,11 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 
 /* The shimmer, in flat colour only: every letter is one solid colour at any moment, and changes
    in a hard step (step-end), never a blend.
-   Title: once, on load, a violet letter leads and an orange one follows across the black "Vulcan".
-   Names: a narrow violet band pulses slowly along the names each
+   Title: on load and then every 10 seconds, a violet letter leads and an orange one follows across the black "Vulcan".
+   Rows: a narrow band pulses slowly along the roles in orange, then along the names in violet, each
    time the list comes back into view. The script sets --cx (the wait between letters), --ry (the
    wait between rows), and the direction, from a fixed sequence, so each pass differs slightly. */
-.tch, .ch { color: inherit; }
+.tch, .ch, .rch { color: inherit; }
 /* Each letter: violet for 450ms, then orange for 300ms, then black again, 300ms after the one
    before, so a violet letter leads and one orange letter follows. Over the photo ("can") the
    bright orange measured 1.4 to 2.6:1 against the sky, so those letters take the deeper orange. */
@@ -213,9 +213,14 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
   60% { color: var(--o); }
   100% { color: var(--ink); }
 }
-.team.pulse .ch { animation: pulse var(--hold) step-end; animation-delay: calc(var(--c) * var(--cx) + var(--r) * var(--ry)); }
-.team.pulse.up .ch { animation-delay: calc(var(--c) * var(--cx) + var(--rr) * var(--ry)); }
+.team.pulse .ch { animation: pulse var(--hold) step-end; animation-delay: calc(var(--after) + var(--c) * var(--cx) + var(--r) * var(--ry)); }
+.team.pulse.up .ch { animation-delay: calc(var(--after) + var(--c) * var(--cx) + var(--rr) * var(--ry)); }
 @keyframes pulse { 0%, 100% { color: var(--violet); } }
+/* The roles (black) take the same band in orange first (Ben, 14 Oct); once it has crossed every role,
+   the violet band runs down the names (--after, set by the script). One at a time is less cluttered. */
+.team.pulse .rch { animation: pulse-role var(--hold) step-end; animation-delay: calc(var(--c) * var(--cx) + var(--r) * var(--ry)); }
+.team.pulse.up .rch { animation-delay: calc(var(--c) * var(--cx) + var(--rr) * var(--ry)); }
+@keyframes pulse-role { 0%, 100% { color: var(--orange); } }
 
 /* How it works: the same index, one line per idea. Sentences start on column 5, like the jobs. */
 .ideas { border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
@@ -461,12 +466,14 @@ const joinNames = list => list.length < 3 ? list.join(" and ") : list.slice(0, -
 const colourWords = s => curly(s).replace(/\[\[(.+?)\]\]/g, '<span class="ag">$1</span>').replace(/\{\{(.+?)\}\}/g, '<span class="ob">$1</span>');
 const letterCount = name => [...name].filter(c => c !== " ").length;
 
-/* Each letter of each name is its own span (--c is its place in the name), so the pulse can
-   pass along them letter by letter. */
-function letters(name) {
-  let c = 0;
-  const spans = [...name].map(ch => ch === " " ? " " : `<span class="ch" style="--c:${c++}">${esc(ch)}</span>`).join("");
-  return `<span class="sr">${esc(name)}</span><span aria-hidden="true">${spans}</span>`;
+/* Each letter of each role and name is its own span (--c is its place in the role or the name),
+   so the pulse can pass along them letter by letter. Role and name run separately, each from its
+   own first letter, so the names light up in row order however long the roles are (Ben, 14 Oct). */
+function letters(text, cls = "ch", start = 0) {
+  let c = start;
+  text = text.replace(/'/g, "’");
+  const spans = [...text].map(ch => ch === " " ? " " : `<span class="${cls}" style="--c:${c++}">${esc(ch)}</span>`).join("");
+  return `<span class="sr">${esc(text)}</span><span aria-hidden="true">${spans}</span>`;
 }
 
 /* One row. --r and --rr are its place from the top and from the bottom (the pulse runs both
@@ -480,7 +487,7 @@ function agentRow(a, i) {
   const numbered = a.numbered ? `<div><dt>Numbered</dt><dd>${esc(a.name)}-1, ${esc(a.name)}-2, and so on</dd></div>` : "";
   return `
     <li class="agent${isOpen ? " open" : ""}" id="agent-${a.id}" style="--r:${i}; --rr:${TEAM.length - 1 - i}; --len:${letterCount(a.name)}">
-      <h3 class="head"><button class="btn" id="btn-${a.id}" type="button" aria-expanded="${isOpen}" aria-controls="panel-${a.id}"><span class="role">${curly(a.role)}</span><span class="name">${letters(a.name)}</span><span class="icon" aria-hidden="true"><svg viewBox="0 0 20 16"><path class="rock" d="M7 1Q10 3 13 1L20 16H0Z"/><path class="lava" d="M7 1Q10 3 13 1L15 5.3H12.4Q11.6 5.3 11.6 6.1V7.4A1.6 1.6 0 0 1 8.4 7.4V6.1Q8.4 5.3 7.6 5.3H5Z"/></svg></span></button></h3>
+      <h3 class="head"><button class="btn" id="btn-${a.id}" type="button" aria-expanded="${isOpen}" aria-controls="panel-${a.id}"><span class="role">${letters(a.role, "rch")}</span><span class="name">${letters(a.name)}</span><span class="icon" aria-hidden="true"><svg viewBox="0 0 20 16"><path class="rock" d="M7 1Q10 3 13 1L20 16H0Z"/><path class="lava" d="M7 1Q10 3 13 1L15 5.3H12.4Q11.6 5.3 11.6 6.1V7.4A1.6 1.6 0 0 1 8.4 7.4V6.1Q8.4 5.3 7.6 5.3H5Z"/></svg></span></button></h3>
       <div class="panel" id="panel-${a.id}">
         <div class="panel-in"><div class="panel-grid grid">
           ${field("does", "What it does", a.does)}
@@ -616,9 +623,10 @@ addEventListener("scroll", () => { if (!ticking && moving()) { ticking = true; r
 /* The shimmer. Nothing moves with ?still=1 or reduced motion. */
 const motionOK = () => !still && !reduce.matches;
 
-/* Title: once, on load (timings are in the CSS: 400ms lead, 300ms between letters, 750ms each). */
+/* Title: on load, then every 10 seconds while the tab is open (Ben, 14 Oct). Timings are in the
+   CSS: 400ms lead, 300ms between letters, 750ms each, so one pass takes under 3 seconds. */
 function sweepTitle() {
-  if (!motionOK()) return;
+  if (!motionOK() || document.hidden) return;
   const t = document.getElementById("title");
   t.classList.add("sweep");
   setTimeout(() => t.classList.remove("sweep"), 400 + 5 * 300 + 750 + 50);
@@ -642,10 +650,13 @@ function pulseNames() {
   list.style.setProperty("--cx", s.cx + "ms");
   list.style.setProperty("--ry", s.ry + "ms");
   list.style.setProperty("--hold", HOLD + "ms");
+  /* The roles' pass first, then a short beat, then the names' pass. */
+  const pass = key => (TEAM.length - 1) * s.ry + (Math.max(...TEAM.map(a => letterCount(a[key]))) - 1) * s.cx + HOLD;
+  const after = pass("role") + 250;
+  list.style.setProperty("--after", after + "ms");
+  const total = after + pass("name");
   list.classList.toggle("up", up);
   list.classList.add("pulse");
-  const longest = Math.max(...TEAM.map(a => letterCount(a.name)));
-  const total = (TEAM.length - 1) * s.ry + (longest - 1) * s.cx + HOLD;
   setTimeout(() => { list.classList.remove("pulse", "up"); playing = false; }, total + 50);
 }
 function watchList() {
@@ -661,7 +672,8 @@ buildIdeas();
 drawFloor();
 watchList();
 document.getElementById("photo-img").addEventListener("load", drawFloor);
-if (document.fonts) document.fonts.ready.then(() => { drawFloor(); sweepTitle(); }); else sweepTitle();
+function startTitle() { sweepTitle(); if (motionOK()) setInterval(sweepTitle, 10000); }
+if (document.fonts) document.fonts.ready.then(() => { drawFloor(); startTitle(); }); else startTitle();
 addEventListener("resize", drawFloor);
 </script>
 </body>
