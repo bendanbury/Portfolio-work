@@ -208,6 +208,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 .brief figcaption { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
 .brief .brief-t { font-weight: 700; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
 .brief p + p { margin-top: 3px; }
+/* A picture as the artefact (Kochi: Project Home's cover, Ben, 15 Oct): the box shrinks to it. */
+.brief.pic { width: fit-content; max-width: 100%; }
+.brief.pic img { display: block; width: 240px; max-width: 100%; height: auto; border: 1px solid var(--rule); }
 .redact { display: inline-block; width: calc(var(--n) * 0.55em); height: 0.95em; vertical-align: -0.12em; background: var(--ink); }
 .facts .wide { grid-column: 1 / -1; }   /* "Works with" is a sentence: full width where the facts sit in two columns */
 .facts dd { color: var(--body); }
@@ -348,7 +351,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
   </section>
 
   <section class="wrap syn grid" aria-label="In short">
-    <p class="p1">I’m a History graduate who works in an outdoor shop in London, and I run my work through <span class="vn">Vulcan</span>, a system of custom AI agents. Each one is Claude, the AI made by Anthropic, given one job and a name; most chose their own. With Vulcan, I’ve retaken control of my email and kept every graduate application on track, while volunteering on a charity drop that raised over £15,000.</p>
+    <p class="p1">I’m a History graduate who works in an outdoor shop in London, and I run my work through <span class="vn">Vulcan</span>, a system of custom AI agents. Each one is Claude, the AI made by Anthropic, given one job and a name; most chose their own. With Vulcan, I’ve retaken control of my email and kept every graduate application on track.</p>
     <div class="p2">
       <p>Every chat with an AI starts with no memory of the last one, so everything that matters goes into plain notes that the main agents read first and update last. I’m not a developer (yet). I set the rules; the agents write and test the code. The full write-up covers how I limited what an email can make them do.</p>
       <a class="go loud" href="full-write-up.html">Read how the team works</a>
@@ -370,7 +373,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
     </div>
     <div class="rules grid">
       <figure class="rules-photo">
-        <img src="assets/systems/gully-scramble.jpg" width="1500" height="2000" loading="lazy"
+        <img src="assets/systems/gully-scramble.jpg" width="1500" height="2000"
              alt="Ben scrambling up a steep rock gully, seen from above, with a valley far below.">
         <figcaption>Photo: Scrambling in North Wales; taken by my friend Dan</figcaption>
       </figure>
@@ -425,15 +428,16 @@ const TEAM = [
                      "[[x9]]: nothing heard, so drop the “interviews w/c 19 Oct” assumption until they write."] } },
   { id: "kochi", name: "Kochi", kind: "Main agent", rhythm: "Each working chat", numbered: true,
     role: "Helps with my volunteering and portfolio",
-    does: "It helps with design, writing, and checking creative work; it keeps track of every open thread with the charities.",
-    task: "Directing sub-agents to build and critique three designs for this page; recovering a charity’s logo in high quality from an old poster PDF.",
+    does: "It gives advice on my creative work and keeps track of every open thread with the charities.",
+    task: "Recovering a charity’s logo in high quality from an old poster PDF; looking after Project Home, my proposal for that charity.",
     why: "Keeping charity and creative work apart from the job search and the setup means each chat reads only what it needs, so it costs less.",
     works: "Runs [[the Spotters]] and [[Blueberry]] on its drafts, and signs off any change [[Setter]] makes to how it works.",
     line: "I help with Ben's volunteering and creative work, then write it all down so the next Kochi can pick it up.",
     name_note: "I named this one after my trip to Japan: a Montbell T-shirt sold only in the summit hut on Tsurugisan, on Shikoku (the island Kochi City is on), and a Kochi City climbing gym sticker on my water bottle.",
-    note: ["Directing sub-agents to build and critique three designs for this page was Kochi’s job; so was recovering a charity’s logo in high quality from an old poster PDF.", "It gives advice on my creative work and keeps track of every open thread with the charities I volunteer for. Keeping that separate from the job search and the setup means each chat reads only what it needs, so it costs less. It runs the Spotters and Blueberry on its drafts, and signs off any change Setter makes to how it works."],
-    brief: { when: "A blind reader’s scores for this page against my benchmarks, the 14th of October (1 is a designer’s hand, 10 an AI template)",
-             lines: ["Old Systems page: 8", "Outdoor brand research dossier: 7", "Vulcan: 5", "Project Home dossier: 3", "A design studio’s website: 2"] } },
+    note: ["Recovering a charity’s logo in high quality from an old poster PDF was Kochi’s job; so is looking after Project Home, a proposal I wrote for the same charity.", "It gives advice on my creative work and keeps track of every open thread with the charities I volunteer for. Keeping that separate from the job search and the setup means each chat reads only what it needs, so it costs less. It runs the Spotters and Blueberry on its drafts, and signs off any change Setter makes to how it works."],
+    brief: { when: "Project Home’s cover, the 7th of October",
+             img: { src: "assets/systems/project-home-cover.jpg", alt: "The cover of Project Home: Montbell and the Mountain Adventure Fund, a proposal. A Montbell bear mascot in a blue rain jacket, in a shop in Japan.", w: 635, h: 900 },
+             lines: [] } },
   { id: "setter", name: "Setter", kind: "Main agent", rhythm: "Each working chat", numbered: true,
     role: "Maintains the code behind the system",
     does: "It looks after the setup: scripts, Lark’s instructions, settings, and the sub-agents. Every change goes through tests and a three-member code council before it goes live.",
@@ -522,11 +526,11 @@ const NAMES_NOTE = "Most of the agents chose their own names; the stories are in
    the rules use plain names (colour stays in the index). */
 const IDEAS = [
   { title: "The notes act as memory",
-    text: "Every chat starts blank, so the main agents read the notes in Obsidian first and update them last. As of the 14th of October, Belay is on its 28th chat and Kochi its 13th; each one started from the last one’s handover note." },
+    text: "Every chat starts blank, so the main agents read the notes in Obsidian first and update them last. As of the 14th of October, Belay is on its 28th chat and Kochi its 13th; each one started from the last one’s handover note. Health details never go into them, and the names blacked out on this page aren’t secrets, just not mine to publish." },
   { title: "The agents can read, but they can’t act",
     text: "An email can hide instructions for an AI, so sending, forwarding, and deleting are completely blocked. Lark can create Trello cards, comment on them, and move them; 28 automatic checks make sure that it can’t do anything else." },
   { title: "Vulcan mostly uses scripts",
-    text: "A script with no AI runs every 15 minutes; Lark runs each morning; the specialists run when they’re needed. That one script does seven jobs, from pinging my phone to rewriting the status page." },
+    text: "A script with no AI runs every 15 minutes; Lark runs each morning; the specialists run when they’re needed. That script does seven jobs, from pinging my phone to rewriting the status page, split across nine small files." },
   { title: "Only one job per part",
     text: "Trello holds what I need to do, Obsidian keeps what I want to remember, and Git records every change to the setup. Git has logged 36 changes since the 12th of October, each with who made it and why." },
   /* Draft (Kochi-13, 14 Oct): one real moment, for Ben to review. */
@@ -564,7 +568,8 @@ function letters(text, cls = "ch", start = 0) {
 /* A real brief, retyped: [[xN]] is a name blacked out, about N letters wide. */
 function briefCard(b) {
   const bar = t => esc(t).replace(/\[\[x(\d+)\]\]/g, (m, n) => `<span class="redact" style="--n:${n}"><span class="sr">name hidden</span></span>`);
-  return `<figure class="brief"><figcaption>${curly(b.when)}</figcaption>
+  const pic = b.img ? `<img src="${b.img.src}" alt="${esc(b.img.alt)}" width="${b.img.w}" height="${b.img.h}">` : "";
+  return `<figure class="brief${b.img ? " pic" : ""}"><figcaption>${curly(b.when)}</figcaption>${pic}
     ${b.title ? `<p class="brief-t">${bar(b.title)}</p>` : ""}${b.lines.map(l => `<p>${bar(l)}</p>`).join("")}</figure>`;
 }
 function agentRow(a, i) {
