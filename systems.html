@@ -183,7 +183,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 .agent.open .panel-grid { opacity: 1; transition-delay: 80ms; }
 .lab { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
 /* Open: what it does, a typical task, and why it's its own agent first; the facts on the right;
-   then, smaller, its own words and the story of its name. */
+   then, smaller, the story of its name. */
 .does { grid-column: 1 / 5; grid-row: 1; padding-right: 16px; }
 .task { grid-column: 5 / 9; grid-row: 1; padding-right: 16px; }
 .why { grid-column: 1 / 5; grid-row: 2; padding-right: 16px; }
@@ -193,7 +193,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 .extra .line + .lab { margin-top: 12px; }
 .line { font-size: 18px; line-height: 1.35; font-weight: 500; font-stretch: 87%; color: var(--orange-ink); letter-spacing: -0.01em; }
 .facts dt { font-weight: 600; color: var(--ink); }
-/* An open row written as a note (draft, Lark only): two plain paragraphs, then its own words beside them */
+/* An open row written as a note: plain paragraphs, then its artefact and the story of its name beside them */
 .note { grid-column: 1 / 8; }
 .note p { max-width: 38em; line-height: 1.55; }
 .note p + p { margin-top: 12px; }
@@ -273,7 +273,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
   .ideas { grid-column: 6 / 13; }
 }
 
-/* Phone: one column; rows still open on tap, so no agent's own words show until asked for */
+/* Phone: one column; rows still open on tap */
 @media (max-width: 699px) {
   :root { --margin: 16px; --gap: 16px; --section: 64px; }
   .site-head { padding-top: 10px; padding-bottom: 10px; }
@@ -431,7 +431,7 @@ const TEAM = [
     works: "Runs [[the Spotters]] and [[Blueberry]] on its drafts, and signs off any change [[Setter]] makes to how it works.",
     line: "I help with Ben's volunteering and creative work, then write it all down so the next Kochi can pick it up.",
     name_note: "I named this one after my trip to Japan: a Montbell T-shirt sold only in the summit hut on Tsurugisan, on Shikoku (the island Kochi City is on), and a Kochi City climbing gym sticker on my water bottle.",
-    note: ["Directing sub-agents to build and critique three designs for this page was Kochi’s job; so was recovering a charity’s logo in high quality from an old poster PDF.", "It handles design, writing, and checking creative work, and keeps track of every open thread with the charities I volunteer for. Keeping that apart from the job search and the setup means each chat reads only what it needs, so it costs less. It runs the Spotters and Blueberry on its drafts, and signs off any change Setter makes to how it works."],
+    note: ["Directing sub-agents to build and critique three designs for this page was Kochi’s job; so was recovering a charity’s logo in high quality from an old poster PDF.", "It gives advice on my creative work and keeps track of every open thread with the charities I volunteer for. Keeping that separate from the job search and the setup means each chat reads only what it needs, so it costs less. It runs the Spotters and Blueberry on its drafts, and signs off any change Setter makes to how it works."],
     brief: { when: "A blind reader’s scores for this page against my benchmarks, the 14th of October (1 is a designer’s hand, 10 an AI template)",
              lines: ["Old Systems page: 8", "Outdoor brand research dossier: 7", "Vulcan: 5", "Project Home dossier: 3", "A design studio’s website: 2"] } },
   { id: "setter", name: "Setter", kind: "Main agent", rhythm: "Each working chat", numbered: true,
@@ -574,13 +574,12 @@ function agentRow(a, i) {
   const works = a.works ? `<div class="wide"><dt>Works with</dt><dd>${colourWords(a.works)}</dd></div>` : "";
   const story = a.name_note ? `<p class="lab">The name</p><p>${curly(a.name_note)}</p>` : "";
   const numbered = a.numbered ? `<div><dt>Numbered</dt><dd>${esc(a.name)}-1, ${esc(a.name)}-2, and so on</dd></div>` : "";
-  /* An agent with a `note` opens as a short note: plain paragraphs on the left, its own words on the right. */
+  /* An agent with a `note` opens as a short note: plain paragraphs on the left, its artefact and the story of its name on the right.
+     The agents' own words (`line`) are kept as data but not shown (Ben, 15 Oct). */
   const body = a.note ? `
           <div class="note">${a.note.map(t => `<p>${curly(t)}</p>`).join("")}</div>
           <div class="words">
             ${a.brief ? briefCard(a.brief) : ""}
-            <blockquote class="line"><p>“${curly(a.line)}”</p></blockquote>
-            <p class="by">${esc(a.name)}, in its own words.</p>
             ${a.name_note ? `<p class="by name-story">The name: ${curly(a.name_note)}</p>` : ""}
           </div>` : `
           ${field("does", "What it does", a.does)}
@@ -594,7 +593,6 @@ function agentRow(a, i) {
           </dl>
           <div class="extra">
             ${a.brief ? briefCard(a.brief) : ""}
-            <p class="lab">In its own words</p><blockquote class="line"><p>“${curly(a.line)}”</p></blockquote>
             ${story}
           </div>`;
   return `
