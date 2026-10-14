@@ -137,11 +137,13 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 /* The index of the team */
 .team { border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
 .agent + .agent { border-top: 1px solid var(--rule); }
-/* Each row is one button, one flat flex line: number, name, job, and the plus share one baseline.
+/* Each row is one button, one flat flex line: role, name, and the icon share one baseline. No row numbers (Ben, 14 Oct).
+   The role leads (Joe's feedback, 14 Oct: what an agent does before what it's called); the name
+   follows, smaller, still orange, on the facts column of the open panel.
    No nested grids or subgrid baselines (they differ between Chrome and Safari); the row's
    height comes from the name's own line box plus fixed padding, so the name can't leave its row.
-   Widths are worked out from the page's 12 columns, so the name starts on column 2 and the job
-   on column 5 (the reading line shared with the photo, the synopsis, and "How it works"). */
+   Widths are worked out from the page's 12 columns, so the role starts on column 2 and the name
+   on column 9. */
 .head { margin: 0; font: inherit; }
 .btn {
   --col: calc((100% - 11 * var(--gap)) / 12);
@@ -154,9 +156,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 .btn:focus { outline: none; }
 .btn:focus-visible { outline: 2px solid var(--violet); outline-offset: -2px; }
 .btn[data-pointer]:focus-visible { outline: none; }
-.num { flex: 0 0 calc(var(--col) + var(--gap)); font-size: 15px; line-height: 1.4; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; transition: color 150ms var(--ease); }
-.name { flex: 0 0 calc(3 * var(--col) + 3 * var(--gap)); min-width: 0; white-space: nowrap; font-weight: 800; font-stretch: 75%; font-size: clamp(32px, 2.9vw, 44px); line-height: 1.0; letter-spacing: -0.015em; word-spacing: 0.12em; color: var(--orange); transition: color 150ms var(--ease); }
-.job { flex: 1 1 0; min-width: 0; font-size: 16px; color: var(--muted); line-height: 1.4; padding-right: 16px; }
+.role { flex: 0 0 calc(8 * var(--col) + 8 * var(--gap)); min-width: 0; padding-right: var(--gap); font-weight: 800; font-stretch: 75%; font-size: clamp(30px, 2.6vw, 40px); line-height: 1.05; letter-spacing: -0.015em; word-spacing: 0.12em; color: var(--ink); transition: color 150ms var(--ease); }
+.name { flex: 1 1 0; min-width: 0; white-space: nowrap; font-weight: 800; font-stretch: 75%; font-size: 24px; line-height: 1.0; letter-spacing: -0.01em; word-spacing: 0.12em; color: var(--orange); }
 /* The icon is a volcano (Ben's idea, 13 Oct): a violet triangle with its top cut off and dipped like
    a crater, and orange lava across its top third with one drip running down the middle. Closed, it
    hangs upside down and reads as an arrow pointing down ("this opens"); open, it turns upright.
@@ -168,9 +169,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 .agent.open .icon { transform: rotate(0deg); }
 
 /* Hover or focus previews the open state; open is violet, because violet is what opens */
-.btn:hover .name, .btn:hover .num,
-.btn:focus-visible .name, .btn:focus-visible .num,
-.agent.open .name, .agent.open .num { color: var(--violet); }
+.btn:hover .role, .btn:focus-visible .role, .agent.open .role { color: var(--violet); }
 
 /* The open panel unfolds under the row's own columns */
 .panel { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 350ms var(--ease), visibility 0s linear 350ms; }
@@ -179,20 +178,27 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 .panel-grid { padding: 4px 0 28px; row-gap: 18px; opacity: 0; transition: opacity 250ms var(--ease); }
 .agent.open .panel-grid { opacity: 1; transition-delay: 80ms; }
 .lab { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
-.words { grid-column: 2 / 5; padding-right: 16px; }
-.line { font-size: 24px; line-height: 1.3; font-weight: 500; font-stretch: 87%; color: var(--orange-ink); letter-spacing: -0.01em; }
-.story { grid-column: 5 / 9; padding-right: 16px; }
-.facts { grid-column: 9 / 13; font-size: 15px; display: grid; row-gap: 14px; align-content: start; }
+/* Open: what it does, a typical task, and why it's its own agent first; the facts on the right;
+   then, smaller, its own words and the story of its name. */
+.does { grid-column: 1 / 5; grid-row: 1; padding-right: 16px; }
+.task { grid-column: 5 / 9; grid-row: 1; padding-right: 16px; }
+.why { grid-column: 1 / 5; grid-row: 2; padding-right: 16px; }
+.facts { grid-column: 9 / 13; grid-row: 1 / span 2; font-size: 15px; display: grid; row-gap: 14px; align-content: start; }
+.extra { grid-column: 5 / 9; grid-row: 2; padding-right: 16px; font-size: 15px; color: var(--muted); }
+.extra .lab { color: var(--muted); }
+.extra .line + .lab { margin-top: 12px; }
+.line { font-size: 18px; line-height: 1.35; font-weight: 500; font-stretch: 87%; color: var(--orange-ink); letter-spacing: -0.01em; }
 .facts dt { font-weight: 600; color: var(--ink); }
+.facts .wide { grid-column: 1 / -1; }   /* "Works with" is a sentence: full width where the facts sit in two columns */
 .facts dd { color: var(--body); }
 
 .numbering { margin-top: 16px; }
-.numbering p { grid-column: 2 / 10; font-size: 15px; line-height: 1.5; color: var(--muted); }
+.numbering p { grid-column: 1 / 10; font-size: 15px; line-height: 1.5; color: var(--muted); }
 
 /* The shimmer, in flat colour only: every letter is one solid colour at any moment, and changes
    in a hard step (step-end), never a blend.
    Title: once, on load, a violet letter leads and an orange one follows across the black "Vulcan".
-   Names: a narrow violet band pulses slowly along the names (and each number with its name) each
+   Names: a narrow violet band pulses slowly along the names each
    time the list comes back into view. The script sets --cx (the wait between letters), --ry (the
    wait between rows), and the direction, from a fixed sequence, so each pass differs slightly. */
 .tch, .ch { color: inherit; }
@@ -209,8 +215,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 }
 .team.pulse .ch { animation: pulse var(--hold) step-end; animation-delay: calc(var(--c) * var(--cx) + var(--r) * var(--ry)); }
 .team.pulse.up .ch { animation-delay: calc(var(--c) * var(--cx) + var(--rr) * var(--ry)); }
-.team.pulse .num { animation: pulse calc(var(--hold) + (var(--len) - 1) * var(--cx)) step-end; animation-delay: calc(var(--r) * var(--ry)); }
-.team.pulse.up .num { animation-delay: calc(var(--rr) * var(--ry)); }
 @keyframes pulse { 0%, 100% { color: var(--violet); } }
 
 /* How it works: the same index, one line per idea. Sentences start on column 5, like the jobs. */
@@ -227,10 +231,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
   .syn .p2 { grid-column: 7 / 13; }
   .section-head h2 { grid-column: 1 / -1; font-size: 44px; }
   .section-head p { grid-column: 1 / 9; }
-  .name { flex-basis: calc(5 * var(--col) + 5 * var(--gap)); }
-  .words { grid-column: 2 / 7; }
-  .story { grid-column: 7 / 13; }
-  .facts { grid-column: 7 / 13; grid-template-columns: 1fr 1fr; column-gap: 20px; }
+  .role { flex-basis: calc(8 * var(--col) + 8 * var(--gap)); }
+  .does { grid-column: 1 / 7; }
+  .task { grid-column: 7 / 13; }
+  .why { grid-column: 1 / 7; }
+  .facts { grid-column: 7 / 13; grid-row: 2; grid-template-columns: 1fr 1fr; column-gap: 20px; }
+  .extra { grid-column: 1 / 13; grid-row: 3; }
   .idea h3 { grid-column: 1 / 7; }
   .idea p { grid-column: 7 / 13; }
 }
@@ -261,13 +267,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
   .section-head h2 { font-size: 36px; }
 
   .btn { flex-wrap: wrap; padding: 15px 0 16px; }
-  .num { flex: 0 0 44px; }
-  .name { flex: 1 1 0; font-size: 34px; }
+  .role { flex: 1 1 0; font-size: 28px; padding-right: 12px; }
   .icon { order: 2; flex: 0 0 18px; width: 18px; height: 14px; }
-  .job { order: 3; flex: 0 0 100%; padding: 4px 0 0 44px; }
-  .panel-grid { padding: 4px 0 24px 44px; row-gap: 16px; }
-  .words, .story { padding-right: 0; }
-  .line { font-size: 21px; }
+  .name { order: 3; flex: 0 0 100%; font-size: 20px; padding: 6px 0 0; }
+  .panel-grid > * { grid-row: auto !important; }
+  .panel-grid { padding: 4px 0 24px; row-gap: 16px; }
+  .does, .task, .why, .extra { padding-right: 0; }
   .facts { grid-template-columns: 1fr 1fr; column-gap: 16px; font-size: 16px; }
   .numbering p { font-size: 16px; }
 
@@ -317,8 +322,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 
   <section class="wrap section" aria-labelledby="team-h">
     <div class="section-head grid">
-      <h2 class="display" id="team-h">Most of the agents chose their own names</h2>
-      <p id="team-hint">Open a line for the agent’s own words and the story of its name.</p>
+      <h2 class="display" id="team-h">What each agent does</h2>
+      <p id="team-hint">Open a line for an example, how it fits with the others, and the story of its name.</p>
     </div>
     <ol class="team" id="team"></ol>
     <div class="numbering grid"><p id="numbering"></p></div>
@@ -346,50 +351,88 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outlin
 <script>
 /* ------------------------------------------------------------------
    THE CAST. One entry per agent; the page is built from this array.
-   To add an agent: add one entry at the end. Its number (the next
-   one in the index), its row, the numbering line (if `numbered`) and
+   To add an agent: add one entry at the end. Its row, the numbering line (if `numbered`) and
    its part in the shimmer all follow from it.
    ------------------------------------------------------------------ */
 const TEAM = [
   { id: "cairn", name: "Cairn", kind: "Main agent", rhythm: "When I want to talk", numbered: false,
-    job: "Helps me find the line",
+    role: "Helps me think things through",
+    does: "It gives me advice, drafts, and edits in Claude’s chat app rather than on my Mac.",
+    task: "Explaining what the latest frontier models can do; “Cairn, when will Mythos stop being so heavily restricted?”",
+    why: "Cairn reads and updates the shared notes; it keeps up to date with everything I work on, but it can’t run anything on my Mac.",
+    works: "Shares one memory file with the others; [[Belay]] leaves it notes when there’s something to pick up.",
     line: "I'm who Ben talks things through with: I help him think, write, and decide.",
     name_note: "Chose its own name: the pile of stones that marks a route for whoever comes next. Declined a number." },
   { id: "belay", name: "Belay", kind: "Main agent", rhythm: "Each working chat", numbered: true,
-    job: "Handles my professional life",
+    role: "Helps with my graduate job search",
+    does: "It helps with CVs, job applications, and interview preparation.",
+    task: "Running the Spotters and Blueberry over a cover letter before I send it.",
+    why: "It started out doing everything; as the system grew, the volunteering and the setup moved to their own agents, so Belay could focus on helping me find a graduate job.",
+    works: "Runs [[the Spotters]], [[Blueberry]], and [[Plumb]]; picks up [[Lark]]’s Trello cards and Today note.",
     line: "I handle Ben's professional work, then leave notes for the next Belay.",
     name_note: "Chose its own name, after the person holding the rope. Took a number: each new chat is the next Belay. It starts with what's written down and nothing else." },
   { id: "kochi", name: "Kochi", kind: "Main agent", rhythm: "Each working chat", numbered: true,
-    job: "Gives back to the mountains",
+    role: "Helps with my volunteering and portfolio",
+    does: "It helps with design, writing, and checking creative work; it keeps track of every open thread with the charities.",
+    task: "Directing sub-agents to build and critique three designs for this page; recovering a charity’s logo in high quality from an old poster PDF.",
+    why: "Keeping charity and creative work apart from the job search and the setup means each chat reads only what it needs, so it costs less.",
+    works: "Runs [[the Spotters]] and [[Blueberry]] on its drafts, and signs off any change [[Setter]] makes to how it works.",
     line: "I help with Ben's volunteering and creative work, then write it all down so the next Kochi can pick it up.",
     name_note: "I named this one after my trip to Japan: a Montbell T-shirt sold only in the summit hut on Tsurugisan, on Shikoku (the island Kochi City is on), and a Kochi City climbing gym sticker on my water bottle." },
   { id: "setter", name: "Setter", kind: "Main agent", rhythm: "Each working chat", numbered: true,
-    job: "Keeps the holds from spinning",
+    role: "Maintains the code behind the system",
+    does: "It looks after the setup: scripts, Lark’s instructions, settings, and the sub-agents. Every change goes through tests and a three-member code council before it goes live.",
+    task: "Splitting a 960-line script that did seven jobs into nine small files, each checked by tests.",
+    why: "It can change how every other agent works, so I decided to keep it away from email entirely; an instruction hidden in an email can never reach it.",
+    works: "Builds new agents and maintains the rest; any change to how an agent works needs that agent’s sign-off.",
     line: "I look after the rules and tools Ben's other AI assistants use, changing nothing without asking.",
     name_note: "Turned down my suggestion, Architect, and named itself after the route setter in a climbing gym, who builds the climbs everyone else uses." },
   { id: "lark", name: "Lark", kind: "Scheduled agent", rhythm: "Each morning", numbered: false,
-    job: "Sorts out daily email",
+    role: "Turns my overnight email into tasks",
+    does: "Reads every email since its last run and turns the ones that matter into Trello cards, an applications log, and a note for the day.",
+    task: "On its first run, two weeks of email (226 messages) became 4 tasks and 22 application updates.",
+    why: "It reads email from anyone; for security reasons, it can’t send, forward, or delete anything.",
+    works: "Leaves [[Belay]] the cards; runs [[Juniper]] on graduate schemes.",
     line: "I'm the early riser of Ben's AI team: I read his overnight email and send a short morning brief.",
     name_note: "It's up first." },
   { id: "plumb", name: "Plumb", kind: "Specialist, reads only", rhythm: "On call", numbered: false,
-    job: "Deep dives into archives",
+    role: "Trawls through months of email for an answer",
+    does: "Lark sorts each day’s email; Plumb reads months of it at once, to find something buried or to answer one question.",
+    task: "On 12th October, it read 189 emails about the charities I volunteer with and answered 15 questions for Kochi’s memory audit.",
+    why: "It only reads. It can’t edit files, run commands, or reach the internet, so nothing in an old email can make it act.",
+    works: "Called by [[Belay]] or [[Kochi]]; [[Setter]] never sees email, so never uses it.",
     line: "When Ben needs months of one email conversation understood, I read every message and report what matters.",
     name_note: "Named for measuring depth." },
   { id: "juniper", name: "Juniper", kind: "Specialist, on a smaller, cheaper model", rhythm: "On call", numbered: false,
-    job: "Checks graduate schemes",
+    role: "Checks which graduate schemes are open",
+    does: "Reads the saved text of graduate scheme pages and reports whether each one is open, and when it closes.",
+    task: "Telling me a scheme has opened and when it closes, so it reaches my task board before the deadline.",
+    why: "I once missed a graduate scheme that opened and closed without my noticing. The job is narrow, so it runs on a smaller, cheaper model. It can only read and report back to Lark.",
+    works: "Runs inside [[Lark]]’s morning job, on pages a plain script has saved.",
     line: "I read graduate scheme job pages and report whether each one is open, closed, or coming soon.",
     name_note: "Wanted a name no one else had." },
-  { id: "spotters", name: "The Spotters", kind: "Specialists: six reviewers (Voice, Reader, Accuracy, Structure, Restraint, and Beta)", rhythm: "On call", numbered: false,
-    job: "Review my written drafts",
+  { id: "spotters", name: "The Spotters", kind: "Specialists", rhythm: "On call", numbered: false,
+    role: "Review my writing from six angles",
+    does: "Six reviewers, each reading a draft one way: Voice, Reader, Accuracy, Structure, Restraint, and Beta. I usually pick three or four for a job.",
+    task: "Reviewing a cover letter before I send it; [[Belay]] merges their reports into one set of edits.",
+    why: "One reviewer judging everything misses things; six reviewers, each taking a different angle, catch what the others don’t see.",
+    works: "Run by [[Belay]] or [[Kochi]], who merge their reports; [[Blueberry]] often reads alongside them.",
     line: "Six reviewers who each read Ben's writing one way, catching what he'd miss.",
     name_note: "In climbing, a spotter stands below a climber, ready to catch a fall." },
   { id: "blueberry", name: "Blueberry", kind: "Specialist", rhythm: "On call", numbered: false,
-    job: "Gives it to me straight",
+    role: "Reads my work as a stranger would",
+    does: "It reads a draft knowing nothing about me (for an application, only the job listing) and tells me what it doesn’t understand.",
+    task: "Reading the original version of this page from the link alone; it found three job lines that only climbers would understand, which led to a rewrite.",
+    why: "Every other agent knows me well, which makes them bad at noticing the things a stranger wouldn’t understand.",
+    works: "Run by [[Belay]] or [[Kochi]], usually after [[the Spotters]].",
     line: "I read Ben's writing knowing nothing, like a stranger would, and tell him where I get lost.",
     name_note: "I named it. In the slang of the video game Destiny: someone who is new to the game." },
 ];
 
-/* The ideas, one line each, in Ben's order (the names are idea two: the index above).
+/* The names, a short note at the foot of the index (Joe's feedback, 14 Oct: the roles come first). */
+const NAMES_NOTE = "Most of the agents chose their own names; the stories are in each line.";
+
+/* The ideas, one line each, in Ben's order (the agents are idea two: the index above).
    In `text`, [[Name]] marks an agent (orange) and {{Obsidian}} marks Obsidian (violet). */
 const IDEAS = [
   { title: "The notes act as memory",
@@ -413,7 +456,6 @@ const opened = new Set(params.get("open") ? [params.get("open")] : []);
 
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const curly = s => esc(s).replace(/'/g, "’");
-const num = i => String(i + 1).padStart(3, "0");
 /* Lists take an Oxford comma: "Belay, Kochi, and Setter". */
 const joinNames = list => list.length < 3 ? list.join(" and ") : list.slice(0, -1).join(", ") + ", and " + list[list.length - 1];
 const colourWords = s => curly(s).replace(/\[\[(.+?)\]\]/g, '<span class="ag">$1</span>').replace(/\{\{(.+?)\}\}/g, '<span class="ob">$1</span>');
@@ -428,23 +470,32 @@ function letters(name) {
 }
 
 /* One row. --r and --rr are its place from the top and from the bottom (the pulse runs both
-   ways); --len is the name's length, so the number stays violet while its name does. */
+   ways); --len is the name's length. */
 function agentRow(a, i) {
   const isOpen = opened.has(a.id);
-  const story = a.name_note ? `<div class="story"><p class="lab">The name</p><p>${curly(a.name_note)}</p></div>` : "";
+  /* Each text field is optional: an empty one is left out. */
+  const field = (cls, label, text) => text ? `<div class="${cls}"><p class="lab">${label}</p><p>${curly(text)}</p></div>` : "";
+  const works = a.works ? `<div class="wide"><dt>Works with</dt><dd>${colourWords(a.works)}</dd></div>` : "";
+  const story = a.name_note ? `<p class="lab">The name</p><p>${curly(a.name_note)}</p>` : "";
   const numbered = a.numbered ? `<div><dt>Numbered</dt><dd>${esc(a.name)}-1, ${esc(a.name)}-2, and so on</dd></div>` : "";
   return `
     <li class="agent${isOpen ? " open" : ""}" id="agent-${a.id}" style="--r:${i}; --rr:${TEAM.length - 1 - i}; --len:${letterCount(a.name)}">
-      <h3 class="head"><button class="btn" id="btn-${a.id}" type="button" aria-expanded="${isOpen}" aria-controls="panel-${a.id}"><span class="num"><span class="sr">Number </span>${num(i)}</span><span class="name">${letters(a.name)}</span><span class="job">${curly(a.job)}</span><span class="icon" aria-hidden="true"><svg viewBox="0 0 20 16"><path class="rock" d="M7 1Q10 3 13 1L20 16H0Z"/><path class="lava" d="M7 1Q10 3 13 1L15 5.3H12.4Q11.6 5.3 11.6 6.1V7.4A1.6 1.6 0 0 1 8.4 7.4V6.1Q8.4 5.3 7.6 5.3H5Z"/></svg></span></button></h3>
+      <h3 class="head"><button class="btn" id="btn-${a.id}" type="button" aria-expanded="${isOpen}" aria-controls="panel-${a.id}"><span class="role">${curly(a.role)}</span><span class="name">${letters(a.name)}</span><span class="icon" aria-hidden="true"><svg viewBox="0 0 20 16"><path class="rock" d="M7 1Q10 3 13 1L20 16H0Z"/><path class="lava" d="M7 1Q10 3 13 1L15 5.3H12.4Q11.6 5.3 11.6 6.1V7.4A1.6 1.6 0 0 1 8.4 7.4V6.1Q8.4 5.3 7.6 5.3H5Z"/></svg></span></button></h3>
       <div class="panel" id="panel-${a.id}">
         <div class="panel-in"><div class="panel-grid grid">
-          <div class="words"><p class="lab">In its own words</p><blockquote class="line"><p>“${curly(a.line)}”</p></blockquote></div>
-          ${story}
+          ${field("does", "What it does", a.does)}
+          ${field("task", "A typical task", a.task)}
+          ${field("why", "Why it’s its own agent", a.why)}
           <dl class="facts">
             <div><dt>Kind</dt><dd>${esc(a.kind)}</dd></div>
             <div><dt>When</dt><dd>${esc(a.rhythm)}</dd></div>
+            ${works}
             ${numbered}
           </dl>
+          <div class="extra">
+            <p class="lab">In its own words</p><blockquote class="line"><p>“${curly(a.line)}”</p></blockquote>
+            ${story}
+          </div>
         </div></div>
       </div>
     </li>`;
@@ -473,7 +524,7 @@ function buildNumbering() {
   const names = TEAM.filter(a => a.numbered).map(a => a.name);
   if (!names.length) return;
   document.getElementById("numbering").textContent =
-    `${joinNames(names)} carry a number: each new chat is the next one (${names[0]}-1, ${names[0]}-2, and so on), ` +
+    NAMES_NOTE + " " + `${joinNames(names)} carry a number: each new chat is the next one (${names[0]}\u20111, ${names[0]}\u20112, and so on), ` +
     "which lets two run at once on different jobs and shows which one did what.";
 }
 
